@@ -1,14 +1,40 @@
+"use client";
+
+import { useState } from "react";
+import { supabase } from "@/lib/supabaseClient";
+
 export default function ClientPage() {
+  const [email, setEmail] = useState("");
+  const [sent, setSent] = useState(false);
+
+  const login = async () => {
+    await supabase.auth.signInWithOtp({
+      email,
+      options: {
+        emailRedirectTo: "https://resultifytechnologies-lhud.vercel.app/client"
+      }
+    });
+    setSent(true);
+  };
+
   return (
     <main style={{ padding: 40 }}>
-      <h1>Client Portal</h1>
-      <p>Welcome to the Resultify Client Dashboard.</p>
-      <ul>
-        <li>AI Automations</li>
-        <li>Usage Analytics</li>
-        <li>Billing</li>
-        <li>Support</li>
-      </ul>
+      <h1>Client Login</h1>
+
+      {sent ? (
+        <p>✅ Magic link sent. Check your email.</p>
+      ) : (
+        <>
+          <input
+            type="email"
+            placeholder="Enter your email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            style={{ padding: 10, marginRight: 10 }}
+          />
+          <button onClick={login}>Send Magic Link</button>
+        </>
+      )}
     </main>
   );
 }
