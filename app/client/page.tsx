@@ -8,15 +8,16 @@ export default function ClientPage() {
   const [sent, setSent] = useState(false);
 
   const login = async () => {
-  alert("Supabase temporarily disabled for test");
-};
+    alert("Supabase temporarily disabled for test");
+    setSent(true);
+  };
 
   return (
     <main style={{ padding: 40 }}>
       <h1>Client Login</h1>
 
       {sent ? (
-        <p>✅ Magic link sent. Check your email.</p>
+        <p>✅ Supabase disabled – sanity test passed.</p>
       ) : (
         <>
           <input
