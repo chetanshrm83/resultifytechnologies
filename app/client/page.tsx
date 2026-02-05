@@ -1,15 +1,32 @@
 "use client";
 
 import { useState } from "react";
-// import { supabase } from "../../lib/supabaseClient";
+import { supabase } from "../../lib/supabaseClient";
 
 export default function ClientPage() {
   const [email, setEmail] = useState("");
   const [sent, setSent] = useState(false);
+  const [loading, setLoading] = useState(false);
 
   const login = async () => {
-    alert("Supabase temporarily disabled for test");
-    setSent(true);
+    if (!email) return alert("Please enter an email");
+
+    setLoading(true);
+    const { error } = await supabase.auth.signInWithOtp({
+      email,
+      options: {
+        emailRedirectTo:
+          "https://resultifytechnologies-lhud.vercel.app/client",
+      },
+    });
+
+    setLoading(false);
+
+    if (error) {
+      alert(error.message);
+    } else {
+      setSent(true);
+    }
   };
 
   return (
@@ -17,7 +34,7 @@ export default function ClientPage() {
       <h1>Client Login</h1>
 
       {sent ? (
-        <p>✅ Supabase disabled – sanity test passed.</p>
+        <p>✅ Magic link sent. Check your email.</p>
       ) : (
         <>
           <input
@@ -27,7 +44,9 @@ export default function ClientPage() {
             onChange={(e) => setEmail(e.target.value)}
             style={{ padding: 10, marginRight: 10 }}
           />
-          <button onClick={login}>Send Magic Link</button>
+          <button onClick={login} disabled={loading}>
+            {loading ? "Sending..." : "Send Magic Link"}
+          </button>
         </>
       )}
     </main>
