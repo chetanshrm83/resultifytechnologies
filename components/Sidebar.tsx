@@ -16,6 +16,7 @@ export default function Sidebar() {
         <Link href="/client/support" className="block hover:text-primary">
           Support
         </Link>
+        <Link href="/client/billing">Billing</Link>
       </nav>
     </aside>
   );
