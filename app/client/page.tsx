@@ -20,6 +20,16 @@ export default function ClientPage() {
             <h3 className="text-lg font-medium">{item}</h3>
             <p className="text-sm text-gray-400 mt-2">
               Manage {item.toLowerCase()}
+              <button
+  onClick={async () => {
+    const res = await fetch("/api/stripe/checkout", { method: "POST" });
+    const data = await res.json();
+    window.location.href = data.url;
+  }}
+  className="w-full py-2 rounded-xl bg-primary text-black"
+>
+  Upgrade
+</button>
             </p>
           </div>
         ))}
