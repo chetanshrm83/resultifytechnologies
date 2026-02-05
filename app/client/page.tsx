@@ -1,24 +1,15 @@
 "use client";
 
 import { useState } from "react";
-import { supabase } from "../../lib/supabaseClient";
+// import { supabase } from "../../lib/supabaseClient";
 
 export default function ClientPage() {
   const [email, setEmail] = useState("");
   const [sent, setSent] = useState(false);
 
   const login = async () => {
-    const { error } = await supabase.auth.signInWithOtp({
-      email,
-      options: {
-        emailRedirectTo:
-          "https://resultifytechnologies-lhud.vercel.app/client",
-      },
-    });
-
-    if (!error) setSent(true);
-    else alert(error.message);
-  };
+  alert("Supabase temporarily disabled for test");
+};
 
   return (
     <main style={{ padding: 40 }}>
