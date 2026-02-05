@@ -1,3 +1,4 @@
+import RevenueChart from "../../components/RevenueChart";
 export default function AdminPage() {
   return (
     <div className="max-w-6xl mx-auto">
@@ -24,5 +25,6 @@ export default function AdminPage() {
         ))}
       </div>
     </div>
+    <RevenueChart />
   );
 }
