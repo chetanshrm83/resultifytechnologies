@@ -1,5 +1,5 @@
 import "./globals.css";
-
+import Image from "next/image";
 import Link from "next/link";
 
 export default function RootLayout({
@@ -9,25 +9,28 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body style={{ margin: 0, fontFamily: "Arial, sans-serif" }}>
-        <header
-          style={{
-            padding: "16px 24px",
-            background: "#0f172a",
-            color: "white",
-            display: "flex",
-            justifyContent: "space-between",
-          }}
-        >
-          <strong>Resultify</strong>
-          <nav style={{ display: "flex", gap: 16 }}>
-            <Link href="/" style={{ color: "white" }}>Home</Link>
-            <Link href="/client" style={{ color: "white" }}>Client</Link>
-            <Link href="/admin" style={{ color: "white" }}>Admin</Link>
+      <body className="min-h-screen bg-gradient-to-br from-slate-950 via-slate-900 to-slate-800">
+        <header className="flex items-center justify-between px-8 py-4 backdrop-blur-md bg-white/5 border-b border-white/10">
+          <div className="flex items-center gap-3">
+            <Image
+              src="/resultify-logo.png"
+              alt="Resultify"
+              width={42}
+              height={42}
+            />
+            <span className="text-xl font-semibold text-white">
+              Resultify
+            </span>
+          </div>
+
+          <nav className="flex gap-6 text-sm">
+            <Link href="/" className="hover:text-primary">Home</Link>
+            <Link href="/client" className="hover:text-primary">Client</Link>
+            <Link href="/admin" className="hover:text-primary">Admin</Link>
           </nav>
         </header>
 
-        <main style={{ padding: 32 }}>{children}</main>
+        <main className="p-8">{children}</main>
       </body>
     </html>
   );
