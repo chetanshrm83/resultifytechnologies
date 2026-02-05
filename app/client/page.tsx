@@ -17,6 +17,9 @@ export default function ClientPage() {
             <h3 className="text-lg font-medium">{item}</h3>
             <p className="text-sm text-gray-400 mt-2">
               Manage {item.toLowerCase()}
+              import UsageChart from "@/components/UsageChart";
+              <UsageChart />
+
             </p>
           </div>
         ))}
