@@ -20,6 +20,8 @@ export default function AdminPage() {
             <h3 className="text-lg font-medium">{item}</h3>
             <p className="text-sm text-gray-400 mt-2">
               Manage {item.toLowerCase()}
+              <nav className="h-screen w-64 bg-slate-950 border-r border-white/10">
+
             </p>
           </div>
         ))}
