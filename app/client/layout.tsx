@@ -1,4 +1,4 @@
-import Sidebar from "@/components/Sidebar";
+import Sidebar from "../../components/Sidebar";
 
 export default function ClientLayout({
   children,
@@ -6,9 +6,9 @@ export default function ClientLayout({
   children: React.ReactNode;
 }) {
   return (
-    <div className="flex">
+    <div className="flex min-h-screen bg-slate-950 text-white">
       <Sidebar />
-      <div className="flex-1 p-8">{children}</div>
+      <main className="flex-1 p-8">{children}</main>
     </div>
   );
 }
