@@ -3,34 +3,36 @@
 export const dynamic = "force-dynamic";
 
 import { useState } from "react";
-import { supabase } from "../../lib/supabaseClient";
-
+import { getSupabase } from "../../lib/supabaseClient";
 
 export default function ClientPage() {
   const [email, setEmail] = useState("");
   const [sent, setSent] = useState(false);
   const [loading, setLoading] = useState(false);
 
-  const login = async () => {
-    if (!email) return alert("Please enter an email");
+ const login = async () => {
+  if (!email) return alert("Please enter an email");
 
-    setLoading(true);
-    const { error } = await supabase.auth.signInWithOtp({
-      email,
-      options: {
-        emailRedirectTo:
-          "https://resultifytechnologies-lhud.vercel.app/client",
-      },
-    });
+  setLoading(true);
 
-    setLoading(false);
+  const supabase = getSupabase();
 
-    if (error) {
-      alert(error.message);
-    } else {
-      setSent(true);
-    }
-  };
+  const { error } = await supabase.auth.signInWithOtp({
+    email,
+    options: {
+      emailRedirectTo:
+        "https://resultifytechnologies-lhud.vercel.app/client",
+    },
+  });
+
+  setLoading(false);
+
+  if (error) {
+    alert(error.message);
+  } else {
+    setSent(true);
+  }
+};
 
   return (
     <main style={{ padding: 40 }}>
