@@ -19,7 +19,7 @@ export default function BillingPage() {
             <p className="text-3xl my-4">{plan.price}</p>
             <p className="text-gray-400 mb-6">{plan.desc}</p>
 
-            <button className="w-full py-2 rounded-xl bg-blue-500 text-black font-medium">
+            <button className="w-full py-2 rounded-xl bg-blue-500 text-black font-medium hover:bg-blue-400 transition">
               Upgrade
             </button>
           </div>
