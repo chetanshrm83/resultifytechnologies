@@ -1,3 +1,5 @@
+"use client";
+
 export default function BillingPage() {
   return (
     <div className="max-w-5xl mx-auto">
@@ -11,13 +13,13 @@ export default function BillingPage() {
         ].map((plan) => (
           <div
             key={plan.name}
-            className="rounded-2xl p-6 bg-white/5 border border-white/10 hover:border-primary transition"
+            className="rounded-2xl p-6 bg-white/5 border border-white/10 hover:border-blue-400 transition"
           >
             <h3 className="text-xl font-medium">{plan.name}</h3>
             <p className="text-3xl my-4">{plan.price}</p>
             <p className="text-gray-400 mb-6">{plan.desc}</p>
 
-            <button className="w-full py-2 rounded-xl bg-primary text-black">
+            <button className="w-full py-2 rounded-xl bg-blue-500 text-black font-medium">
               Upgrade
             </button>
           </div>
