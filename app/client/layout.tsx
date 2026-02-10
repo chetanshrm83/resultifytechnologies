@@ -1,8 +1,8 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { supabase } from "@/lib/supabaseClient";
 import { useRouter } from "next/navigation";
+import { supabase } from "@/lib/supabaseClient";
 import Sidebar from "@/components/Sidebar";
 
 export default function ClientLayout({
@@ -16,7 +16,7 @@ export default function ClientLayout({
   useEffect(() => {
     supabase.auth.getSession().then(({ data }) => {
       if (!data.session) {
-        router.push("/");
+        router.replace("/");
       } else {
         setLoading(false);
       }
@@ -26,7 +26,7 @@ export default function ClientLayout({
   if (loading) return null;
 
   return (
-    <div className="flex">
+    <div className="flex min-h-screen">
       <Sidebar />
       <main className="flex-1 p-8">{children}</main>
     </div>
