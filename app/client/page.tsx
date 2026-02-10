@@ -3,9 +3,11 @@
 export const dynamic = "force-dynamic";
 
 import { useState } from "react";
-import { supabase } from "../../lib/supabaseClient";
+import { getSupabase } from "../../lib/supabaseClient";
 
 export default function ClientPage() {
+  const supabase = getSupabase();
+
   const [email, setEmail] = useState("");
   const [sent, setSent] = useState(false);
   const [loading, setLoading] = useState(false);
