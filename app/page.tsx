@@ -1,17 +1,36 @@
+"use client";
+
 import Link from "next/link";
+import { useEffect } from "react";
+import { useRouter } from "next/navigation";
+import { getSupabase } from "@/lib/supabaseClient";
 
 export default function HomePage() {
+  const router = useRouter();
+
+  // 🔐 Redirect logged-in users
+  useEffect(() => {
+    const checkAuth = async () => {
+      const supabase = getSupabase();
+      const { data } = await supabase.auth.getSession();
+      if (data.session) router.replace("/client");
+    };
+    checkAuth();
+  }, [router]);
+
   return (
     <main className="px-6 py-16 max-w-7xl mx-auto">
-      {/* HERO SECTION */}
-      <section className="text-center mb-20">
+
+      {/* HERO */}
+      <section className="text-center mb-24">
         <h1 className="text-4xl md:text-6xl font-bold text-white mb-6">
           AI Automation for Modern Businesses
         </h1>
+
         <p className="text-lg text-gray-300 max-w-3xl mx-auto mb-8">
-          Resultify helps businesses automate customer conversations,
-          sales, support, and reporting using AI — across WhatsApp,
-          websites, and internal workflows.
+          Resultify helps businesses automate customer conversations, sales,
+          support, and reporting using AI — across WhatsApp, websites, and
+          internal workflows.
         </p>
 
         <div className="flex justify-center gap-4">
@@ -27,6 +46,26 @@ export default function HomePage() {
           >
             View Pricing
           </Link>
+        </div>
+      </section>
+
+      {/* BRAND STRIP */}
+      <section className="mb-24 text-center">
+        <p className="text-sm text-gray-400 mb-6">
+          Trusted by growing teams & agencies
+        </p>
+
+        <div className="flex flex-wrap justify-center gap-8 opacity-70">
+          {["E-Commerce", "SaaS", "Agencies", "Education", "Healthcare"].map(
+            (brand) => (
+              <div
+                key={brand}
+                className="px-6 py-3 rounded-lg bg-white/5 border border-white/10 text-sm"
+              >
+                {brand}
+              </div>
+            )
+          )}
         </div>
       </section>
 
@@ -48,7 +87,7 @@ export default function HomePage() {
         ].map((item) => (
           <div
             key={item.title}
-            className="rounded-2xl p-6 bg-white/5 border border-white/10 hover:border-blue-400 transition"
+            className="rounded-2xl p-6 bg-white/5 border border-white/10 hover:border-blue-400 hover:-translate-y-1 transition-all"
           >
             <h3 className="text-xl font-semibold mb-3">{item.title}</h3>
             <p className="text-gray-400">{item.desc}</p>
@@ -124,7 +163,43 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* CTA */}
+      {/* FAQ */}
+      <section className="mb-24 max-w-4xl mx-auto">
+        <h2 className="text-3xl font-semibold text-center mb-10">
+          Frequently Asked Questions
+        </h2>
+
+        <div className="space-y-4">
+          {[
+            {
+              q: "Do I need technical knowledge?",
+              a: "No. Resultify is built for non-technical teams with guided setup.",
+            },
+            {
+              q: "Does it support WhatsApp automation?",
+              a: "Yes. WhatsApp, website chat, and internal workflows are supported.",
+            },
+            {
+              q: "Is billing automated?",
+              a: "Yes. Subscriptions, upgrades, and payments run on Stripe.",
+            },
+            {
+              q: "Can agencies white-label Resultify?",
+              a: "Yes. White-label and SLA support is available on Enterprise plans.",
+            },
+          ].map((faq) => (
+            <div
+              key={faq.q}
+              className="rounded-xl p-5 bg-white/5 border border-white/10"
+            >
+              <h4 className="font-semibold mb-2">{faq.q}</h4>
+              <p className="text-gray-400">{faq.a}</p>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      {/* FINAL CTA */}
       <section className="text-center">
         <h2 className="text-3xl font-semibold mb-4">
           Ready to Automate Your Business?
