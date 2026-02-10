@@ -1,7 +1,7 @@
 "use client";
 
 export default function BillingPage() {
-  const upgrade = async (priceId: string) => {
+  const subscribe = async (priceId: string) => {
     const res = await fetch("/api/stripe/checkout", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
@@ -9,12 +9,7 @@ export default function BillingPage() {
     });
 
     const data = await res.json();
-
-    if (data?.url) {
-      window.location.href = data.url;
-    } else {
-      alert("Unable to start checkout. Please try again.");
-    }
+    if (data.url) window.location.href = data.url;
   };
 
   const plans = [
@@ -54,16 +49,13 @@ export default function BillingPage() {
 
             {plan.priceId ? (
               <button
-                onClick={() => upgrade(plan.priceId)}
+                onClick={() => subscribe(plan.priceId)}
                 className="w-full py-2 rounded-xl bg-blue-500 text-black font-medium hover:bg-blue-400 transition"
               >
                 Upgrade
               </button>
             ) : (
-              <button
-                disabled
-                className="w-full py-2 rounded-xl bg-gray-600 text-gray-300 font-medium cursor-not-allowed"
-              >
+              <button className="w-full py-2 rounded-xl border border-white/20">
                 Contact Sales
               </button>
             )}
