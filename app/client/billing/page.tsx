@@ -34,7 +34,7 @@ export default function BillingPage() {
   ];
 
   return (
-    <div className="max-w-5xl mx-auto">
+    <div className="max-w-5xl mx-auto p-10">
       <h1 className="text-3xl font-semibold mb-8">Billing</h1>
 
       <div className="grid md:grid-cols-3 gap-6">
@@ -50,7 +50,7 @@ export default function BillingPage() {
             {plan.priceId ? (
               <button
                 onClick={() => subscribe(plan.priceId)}
-                className="w-full py-2 rounded-xl bg-blue-500 text-black font-medium hover:bg-blue-400 transition"
+                className="w-full py-2 rounded-xl bg-blue-500 text-black font-medium hover:bg-blue-400"
               >
                 Upgrade
               </button>
