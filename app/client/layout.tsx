@@ -1,4 +1,5 @@
-import Sidebar from "../../components/Sidebar";
+import AuthGuard from "@/components/AuthGuard";
+import Sidebar from "@/components/Sidebar";
 
 export default function ClientLayout({
   children,
@@ -6,9 +7,11 @@ export default function ClientLayout({
   children: React.ReactNode;
 }) {
   return (
-    <div className="flex min-h-screen bg-slate-950 text-white">
-      <Sidebar />
-      <main className="flex-1 p-8">{children}</main>
-    </div>
+    <AuthGuard>
+      <div className="flex min-h-screen">
+        <Sidebar />
+        <main className="flex-1 p-8">{children}</main>
+      </div>
+    </AuthGuard>
   );
 }
