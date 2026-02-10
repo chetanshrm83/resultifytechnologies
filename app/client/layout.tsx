@@ -1,4 +1,8 @@
-import AuthGuard from "@/components/AuthGuard";
+"use client";
+
+import { useEffect, useState } from "react";
+import { supabase } from "@/lib/supabaseClient";
+import { useRouter } from "next/navigation";
 import Sidebar from "@/components/Sidebar";
 
 export default function ClientLayout({
@@ -6,12 +10,25 @@ export default function ClientLayout({
 }: {
   children: React.ReactNode;
 }) {
+  const router = useRouter();
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    supabase.auth.getSession().then(({ data }) => {
+      if (!data.session) {
+        router.push("/");
+      } else {
+        setLoading(false);
+      }
+    });
+  }, [router]);
+
+  if (loading) return null;
+
   return (
-    <AuthGuard>
-      <div className="flex min-h-screen">
-        <Sidebar />
-        <main className="flex-1 p-8">{children}</main>
-      </div>
-    </AuthGuard>
+    <div className="flex">
+      <Sidebar />
+      <main className="flex-1 p-8">{children}</main>
+    </div>
   );
 }
