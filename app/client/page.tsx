@@ -16,6 +16,7 @@ export default function ClientPage() {
     if (!email) return alert("Please enter an email");
 
     setLoading(true);
+
     const { error } = await supabase.auth.signInWithOtp({
       email,
       options: {
@@ -23,6 +24,7 @@ export default function ClientPage() {
           "https://resultifytechnologies-lhud.vercel.app/client",
       },
     });
+
     setLoading(false);
 
     if (error) alert(error.message);
@@ -34,7 +36,9 @@ export default function ClientPage() {
       <h1 className="text-2xl font-semibold mb-6">Client Login</h1>
 
       {sent ? (
-        <p className="text-green-400">✅ Magic link sent. Check your email.</p>
+        <p className="text-green-400">
+          ✅ Magic link sent. Check your email.
+        </p>
       ) : (
         <div className="flex gap-3">
           <input
