@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { getSupabase } from "@/lib/supabaseClient";
+const supabase = getSupabase();
 import Sidebar from "@/components/Sidebar";
 
 export default function ClientLayout({
