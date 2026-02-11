@@ -1,9 +1,9 @@
 "use client";
 
-import { supabase } from "@/lib/supabaseClient";
-import Sidebar from "@/components/Sidebar";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
+import { supabase } from "@/lib/supabaseClient";
+import Sidebar from "@/components/Sidebar";
 
 export default function ClientLayout({
   children,
@@ -15,7 +15,10 @@ export default function ClientLayout({
 
   useEffect(() => {
     supabase.auth.getSession().then(({ data }) => {
-      if (!data.session) router.push("/");
+      if (!data.session) {
+        router.replace("/");
+        return;
+      }
       setLoading(false);
     });
   }, [router]);
@@ -25,7 +28,7 @@ export default function ClientLayout({
   return (
     <div className="flex min-h-screen">
       <Sidebar />
-      <main className="flex-1 p-8">{children}</main>
+      <main className="flex-1 p-6">{children}</main>
     </div>
   );
 }
