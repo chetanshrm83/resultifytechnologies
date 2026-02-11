@@ -1,9 +1,9 @@
 "use client";
 
-import { useEffect, useState } from "react";
-import { useRouter } from "next/navigation";
 import { supabase } from "@/lib/supabaseClient";
 import Sidebar from "@/components/Sidebar";
+import { useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
 
 export default function ClientLayout({
   children,
@@ -15,11 +15,8 @@ export default function ClientLayout({
 
   useEffect(() => {
     supabase.auth.getSession().then(({ data }) => {
-      if (!data.session) {
-        router.replace("/");
-      } else {
-        setLoading(false);
-      }
+      if (!data.session) router.push("/");
+      setLoading(false);
     });
   }, [router]);
 
