@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { getSupabase } from "@/lib/supabaseClient";
-
+const supabase = getSupabase();
 export default function ClientLogin() {
   const supabase = getSupabase();
   const [email, setEmail] = useState("");
