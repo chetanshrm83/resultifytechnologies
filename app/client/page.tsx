@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { getSupabase } from "@/lib/supabaseClient";
+import { supabase } from "../../lib/supabaseClient";
 const supabase = getSupabase();
 export default function ClientLogin() {
   const supabase = getSupabase();
