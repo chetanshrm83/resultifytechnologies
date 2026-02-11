@@ -2,8 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
-import { getSupabase } from "@/lib/supabaseClient";
-const supabase = getSupabase();
+import { supabase } from "@/lib/supabaseClient";
 import Sidebar from "@/components/Sidebar";
 
 export default function ClientLayout({
@@ -15,20 +14,21 @@ export default function ClientLayout({
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const supabase = getSupabase();
-
     supabase.auth.getSession().then(({ data }) => {
-      if (!data.session) router.replace("/");
-      else setLoading(false);
+      if (!data.session) {
+        router.replace("/");
+      } else {
+        setLoading(false);
+      }
     });
   }, [router]);
 
   if (loading) return null;
 
   return (
-    <div className="flex">
+    <div className="flex min-h-screen">
       <Sidebar />
-      <main className="flex-1 p-10">{children}</main>
+      <main className="flex-1 p-8">{children}</main>
     </div>
   );
 }
