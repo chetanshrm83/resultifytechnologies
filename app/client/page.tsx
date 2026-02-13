@@ -2,35 +2,37 @@
 
 import { useState } from "react";
 import { supabase } from "../../lib/supabaseClient";
-const supabase = getSupabase();
-export default function ClientLogin() {
-  const supabase = getSupabase();
+
+export default function ClientPage() {
   const [email, setEmail] = useState("");
   const [sent, setSent] = useState(false);
 
-  async function login() {
-    await supabase.auth.signInWithOtp({
+  const login = async () => {
+    const { error } = await supabase.auth.signInWithOtp({
       email,
       options: {
-        emailRedirectTo: `${process.env.NEXT_PUBLIC_SITE_URL}/client`,
+        emailRedirectTo: window.location.origin + "/client",
       },
     });
-    setSent(true);
-  }
+
+    if (!error) setSent(true);
+    else alert(error.message);
+  };
 
   return (
-    <div>
-      <h1 className="text-2xl mb-4">Client Login</h1>
+    <div className="max-w-xl mx-auto text-center py-20">
+      <h1 className="text-3xl font-bold mb-6">Client Login</h1>
 
       {sent ? (
-        <p>✅ Magic link sent</p>
+        <p className="text-green-400">Magic link sent. Check email.</p>
       ) : (
-        <>
+        <div className="flex gap-3 justify-center">
           <input
-            className="px-4 py-2 bg-slate-800 border border-white/10 mr-2"
+            type="email"
+            placeholder="Enter email"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
-            placeholder="email@example.com"
+            className="px-4 py-2 bg-slate-800 border border-white/10 rounded"
           />
           <button
             onClick={login}
@@ -38,7 +40,7 @@ export default function ClientLogin() {
           >
             Send Link
           </button>
-        </>
+        </div>
       )}
     </div>
   );
