@@ -1,4 +1,5 @@
 import Stripe from "stripe";
+import { NextResponse } from "next/server";
 
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, {
   apiVersion: "2023-10-16",
@@ -15,5 +16,5 @@ export async function POST(req: Request) {
     cancel_url: `${process.env.NEXT_PUBLIC_SITE_URL}/cancel`,
   });
 
-  return Response.json({ url: session.url });
+  return NextResponse.json({ url: session.url });
 }
