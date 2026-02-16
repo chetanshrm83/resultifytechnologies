@@ -2,7 +2,7 @@ import OpenAI from "openai";
 import { NextResponse } from "next/server";
 
 const openai = new OpenAI({
-  apiKey: process.env.OPENAI_API_KEY,
+  apiKey: process.env.OPENAI_API_KEY!,
 });
 
 export async function POST(req: Request) {
@@ -11,8 +11,8 @@ export async function POST(req: Request) {
   const completion = await openai.chat.completions.create({
     model: "gpt-4o-mini",
     messages: [
-      { role: "system", content: "You are Resultify AI sales assistant." },
-      { role: "user", content: message }
+      { role: "system", content: "You are Resultify AI." },
+      { role: "user", content: message },
     ],
   });
 
