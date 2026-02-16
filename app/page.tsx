@@ -10,12 +10,44 @@ import {
   Bot,
   BarChart3,
   Building2,
-  MessageSquare,
 } from "lucide-react";
 import { useState } from "react";
 
 export default function HomePage() {
   const [openChat, setOpenChat] = useState(false);
+
+  const agents = [
+    {
+      icon: Megaphone,
+      title: "Marketing & Sales",
+      desc: "Qualify leads and convert conversations 24/7.",
+    },
+    {
+      icon: Headset,
+      title: "Customer Experience",
+      desc: "Instant AI-powered support on WhatsApp & web.",
+    },
+    {
+      icon: CreditCard,
+      title: "Collections",
+      desc: "Automate renewals and payment reminders.",
+    },
+    {
+      icon: Bot,
+      title: "Agent Assist",
+      desc: "Real-time AI suggestions for teams.",
+    },
+    {
+      icon: BarChart3,
+      title: "Analytics",
+      desc: "Track revenue impact and AI efficiency.",
+    },
+    {
+      icon: Building2,
+      title: "Internal Help Desk",
+      desc: "Answer employee queries instantly.",
+    },
+  ];
 
   return (
     <main className="px-6 py-16 max-w-7xl mx-auto text-white relative">
@@ -27,7 +59,8 @@ export default function HomePage() {
         </h1>
 
         <p className="text-lg text-gray-400 max-w-3xl mx-auto mb-8">
-          Resultify automates marketing, sales, support, collections and analytics using AI.
+          Resultify automates marketing, sales, support, collections and
+          analytics using AI.
         </p>
 
         <div className="flex justify-center gap-4">
@@ -37,17 +70,16 @@ export default function HomePage() {
           >
             Get Started
           </Link>
-
-          <Link
-            href="/client/billing"
+          <button
+            onClick={() => setOpenChat(true)}
             className="px-6 py-3 rounded-xl border border-white/20 hover:bg-white/10 transition"
           >
-            View Pricing
-          </Link>
+            Try AI Demo
+          </button>
         </div>
       </section>
 
-      {/* METRICS COUNTER */}
+      {/* METRICS */}
       <section className="grid md:grid-cols-3 gap-8 text-center mb-32">
         {[
           { label: "Conversations Automated", value: 124000 },
@@ -69,19 +101,12 @@ export default function HomePage() {
 
       {/* AI AGENTS */}
       <section className="mb-32">
-        <h2 className="text-3xl md:text-5xl font-bold text-center mb-6">
+        <h2 className="text-4xl font-bold text-center mb-12">
           Deploy AI Agents Across Your Business
         </h2>
 
-        <div className="grid md:grid-cols-3 gap-8 mt-12">
-          {[
-            { icon: Megaphone, title: "Marketing & Sales" },
-            { icon: Headset, title: "Customer Experience" },
-            { icon: CreditCard, title: "Collections" },
-            { icon: Bot, title: "Agent Assist" },
-            { icon: BarChart3, title: "Analytics" },
-            { icon: Building2, title: "Internal Help Desk" },
-          ].map((item, i) => (
+        <div className="grid md:grid-cols-3 gap-8">
+          {agents.map((item, i) => (
             <motion.div
               key={item.title}
               initial={{ opacity: 0, y: 30 }}
@@ -91,7 +116,8 @@ export default function HomePage() {
               className="rounded-2xl p-8 bg-white/5 border border-white/10 hover:border-blue-400 hover:-translate-y-2 transition-all"
             >
               <item.icon className="w-8 h-8 text-blue-400 mb-4" />
-              <h3 className="text-xl font-semibold">{item.title}</h3>
+              <h3 className="text-xl font-semibold mb-3">{item.title}</h3>
+              <p className="text-gray-400">{item.desc}</p>
             </motion.div>
           ))}
         </div>
@@ -104,7 +130,7 @@ export default function HomePage() {
         </h2>
 
         <div className="rounded-3xl p-10 bg-gradient-to-br from-blue-500/10 to-purple-500/10 border border-white/10">
-          <p className="text-gray-400 mb-4">
+          <p className="text-gray-400 mb-6">
             Real-time revenue tracking, AI usage, billing & subscription management.
           </p>
           <div className="h-40 bg-black/40 rounded-xl border border-white/10 flex items-center justify-center">
@@ -113,7 +139,7 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* TESTIMONIAL CAROUSEL */}
+      {/* TESTIMONIALS */}
       <section className="mb-32 text-center">
         <h2 className="text-3xl font-bold mb-10">
           Trusted by Growing Businesses
@@ -135,25 +161,46 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* STRIPE USAGE METER */}
+      {/* PRICING TABLE */}
       <section className="mb-32 text-center">
-        <h2 className="text-3xl font-bold mb-6">
-          AI Usage Transparency
+        <h2 className="text-3xl font-bold mb-8">
+          Compare Plans
         </h2>
 
-        <div className="max-w-xl mx-auto">
-          <div className="h-4 bg-white/10 rounded-full overflow-hidden">
-            <div className="h-full w-2/3 bg-blue-500" />
-          </div>
-          <p className="text-gray-400 mt-4">
-            66% of AI usage quota consumed this month.
-          </p>
+        <div className="overflow-x-auto">
+          <table className="w-full text-left border border-white/10 rounded-xl overflow-hidden">
+            <thead className="bg-white/5">
+              <tr>
+                <th className="p-4">Features</th>
+                <th className="p-4">Starter</th>
+                <th className="p-4">Growth</th>
+                <th className="p-4">Enterprise</th>
+              </tr>
+            </thead>
+            <tbody>
+              {[
+                ["AI Chat Automation", "✓", "✓", "✓"],
+                ["WhatsApp Integration", "-", "✓", "✓"],
+                ["Advanced Analytics", "-", "✓", "✓"],
+                ["White-label", "-", "-", "✓"],
+                ["Dedicated SLA", "-", "-", "✓"],
+              ].map((row, i) => (
+                <tr key={i} className="border-t border-white/10">
+                  {row.map((cell, idx) => (
+                    <td key={idx} className="p-4 text-gray-300">
+                      {cell}
+                    </td>
+                  ))}
+                </tr>
+              ))}
+            </tbody>
+          </table>
         </div>
       </section>
 
       {/* FINAL CTA */}
       <section className="text-center py-20 bg-gradient-to-r from-blue-500/10 to-purple-500/10 rounded-3xl border border-white/10">
-        <h2 className="text-3xl md:text-4xl font-bold mb-6">
+        <h2 className="text-4xl font-bold mb-6">
           Ready to Scale With AI?
         </h2>
 
@@ -164,33 +211,25 @@ export default function HomePage() {
           >
             Start Free
           </Link>
-
-          <button
-            onClick={() => setOpenChat(true)}
-            className="px-8 py-3 rounded-xl border border-white/20 hover:bg-white/10 transition"
-          >
-            Try AI Demo
-          </button>
         </div>
       </section>
 
-      {/* AI CHAT DEMO POPUP */}
+      {/* AI CHAT POPUP */}
       {openChat && (
         <div className="fixed bottom-6 right-6 w-80 bg-slate-900 border border-white/10 rounded-2xl shadow-2xl p-6">
           <div className="flex justify-between items-center mb-4">
             <h4 className="font-semibold">AI Demo</h4>
             <button onClick={() => setOpenChat(false)}>✕</button>
           </div>
-          <div className="text-sm text-gray-400 mb-3">
+          <p className="text-sm text-gray-400 mb-3">
             👋 Hi! I'm Resultify AI. How can I help your business today?
-          </div>
+          </p>
           <input
             placeholder="Type a message..."
             className="w-full px-3 py-2 bg-black/40 rounded-lg border border-white/10 text-sm"
           />
         </div>
       )}
-
     </main>
   );
 }
