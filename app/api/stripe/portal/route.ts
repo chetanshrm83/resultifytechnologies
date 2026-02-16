@@ -8,12 +8,25 @@ const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, {
 export async function POST(req: Request) {
   try {
     const { customerId } = await req.json();
+
+    if (!customerId) {
+      return NextResponse.json(
+        { error: "Missing customerId" },
+        { status: 400 }
+      );
+    }
+
     const portal = await stripe.billingPortal.sessions.create({
       customer: customerId,
       return_url: `${process.env.NEXT_PUBLIC_SITE_URL}/client`,
     });
+
     return NextResponse.json({ url: portal.url });
-  } catch (err: any) {
-    return NextResponse.json({ error: err.message || "Server error" }, { status: 500 });
+  } catch (error) {
+    console.error("Stripe portal error:", error);
+    return NextResponse.json(
+      { error: "Failed to create portal session" },
+      { status: 500 }
+    );
   }
 }
