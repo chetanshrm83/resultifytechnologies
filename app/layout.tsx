@@ -17,7 +17,6 @@ export default function RootLayout({
             <Link href="/client/billing">Billing</Link>
           </nav>
         </header>
-
         <main className="p-8">{children}</main>
       </body>
     </html>
