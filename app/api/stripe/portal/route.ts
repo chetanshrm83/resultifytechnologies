@@ -22,10 +22,11 @@ export async function POST(req: Request) {
     });
 
     return NextResponse.json({ url: portal.url });
-  } catch (error) {
+
+  } catch (error: any) {
     console.error("Stripe portal error:", error);
     return NextResponse.json(
-      { error: "Failed to create portal session" },
+      { error: error.message || "Server error" },
       { status: 500 }
     );
   }
