@@ -9,7 +9,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className="min-h-screen bg-slate-950 text-white">
-        <header className="flex justify-between px-8 py-4 border-b border-white/10">
+          <header className="flex justify-between px-8 py-4 border-b border-white/10">
           <h1 className="font-semibold">Resultify</h1>
           <nav className="flex gap-6 text-sm">
             <Link href="/">Home</Link>
@@ -17,7 +17,6 @@ export default function RootLayout({
             <Link href="/client/billing">Billing</Link>
           </nav>
         </header>
-
         <main className="p-8">{children}</main>
       </body>
     </html>

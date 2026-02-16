@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import Stripe from "stripe";
 import { createClient } from "@supabase/supabase-js";
+import { NextResponse } from "next/server";
 
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY as string, {
   apiVersion: "2023-10-16",
@@ -52,4 +53,5 @@ export async function POST(req: Request) {
     console.error(err);
     return NextResponse.json({ error: "Stripe error" }, { status: 500 });
   }
+  return NextResponse.json({ url: session.url });
 }
