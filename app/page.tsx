@@ -1,103 +1,95 @@
 "use client";
 
-import { motion } from "framer-motion";
-import Image from "next/image";
 import Link from "next/link";
+import { useState } from "react";
+import { motion } from "framer-motion";
+import { Megaphone, Headset, CreditCard, Bot, BarChart3, Building2 } from "lucide-react";
 
 export default function HomePage() {
+  const [openChat, setOpenChat] = useState(false);
+
   return (
-    <main className="max-w-7xl mx-auto px-6 py-20">
+    <main className="px-6 py-16 max-w-7xl mx-auto text-white relative">
 
       {/* HERO */}
-      <section className="grid md:grid-cols-2 gap-12 items-center mb-32">
+      <section className="text-center mb-28">
+        <h1 className="text-5xl md:text-6xl font-bold mb-6">
+          AI Automation for Modern Businesses
+        </h1>
 
-        <div>
-          <motion.h1
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6 }}
-            className="text-5xl font-bold leading-tight"
+        <p className="text-lg text-gray-400 max-w-3xl mx-auto mb-8">
+          Resultify automates marketing, sales, support, collections and analytics using AI.
+        </p>
+
+        <div className="flex justify-center gap-4">
+          <Link
+            href="/client"
+            className="px-6 py-3 rounded-xl bg-blue-500 text-black font-semibold hover:bg-blue-400 transition"
           >
-            AI Automation for <br />
-            <span className="text-blue-400">Modern Businesses</span>
-          </motion.h1>
+            Get Started
+          </Link>
 
-          <p className="text-gray-400 mt-6">
-            Automate marketing, sales, support, collections,
-            analytics and internal workflows using AI agents.
-          </p>
-
-          <div className="mt-8 flex gap-4">
-            <Link
-              href="/client"
-              className="px-6 py-3 bg-blue-500 text-black rounded-xl font-semibold hover:bg-blue-400 transition"
-            >
-              Start Free
-            </Link>
-
-            <Link
-              href="/contact"
-              className="px-6 py-3 border border-white/20 rounded-xl hover:bg-white/10 transition"
-            >
-              Talk to Sales
-            </Link>
-          </div>
+          <button
+            onClick={() => setOpenChat(true)}
+            className="px-6 py-3 rounded-xl border border-white/20 hover:bg-white/10 transition"
+          >
+            Try AI Demo
+          </button>
         </div>
-
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ delay: 0.4 }}
-        >
-          <Image
-            src="/hero.png"
-            alt="AI Automation"
-            width={600}
-            height={400}
-            className="rounded-2xl"
-          />
-        </motion.div>
       </section>
 
-      {/* AI AGENTS SECTION */}
-      <section className="mb-32 text-center">
-        <h2 className="text-4xl font-bold mb-6">
+      {/* AI AGENTS */}
+      <section className="mb-28">
+        <h2 className="text-4xl font-bold text-center mb-6">
           Deploy AI Agents Across Your Business
         </h2>
 
         <div className="grid md:grid-cols-3 gap-8 mt-12">
           {[
-            "Marketing & Sales",
-            "Customer Experience",
-            "Collections",
-            "Agent Assist",
-            "Analytics",
-            "Internal Help Desk",
-          ].map((title) => (
+            { icon: Megaphone, title: "Marketing & Sales" },
+            { icon: Headset, title: "Customer Experience" },
+            { icon: CreditCard, title: "Collections" },
+            { icon: Bot, title: "Agent Assist" },
+            { icon: BarChart3, title: "Analytics" },
+            { icon: Building2, title: "Internal Help Desk" },
+          ].map((item) => (
             <div
-              key={title}
-              className="p-8 rounded-2xl border border-white/10 bg-white/5 hover:border-blue-400 transition"
+              key={item.title}
+              className="rounded-2xl p-8 bg-white/5 border border-white/10 hover:border-blue-400 transition"
             >
-              <h3 className="text-xl font-semibold">{title}</h3>
+              <item.icon className="w-8 h-8 text-blue-400 mb-4" />
+              <h3 className="text-xl font-semibold">{item.title}</h3>
             </div>
           ))}
         </div>
       </section>
 
       {/* FINAL CTA */}
-      <section className="text-center">
+      <section className="text-center py-20 bg-white/5 rounded-3xl border border-white/10">
         <h2 className="text-3xl font-bold mb-6">
           Ready to Scale With AI?
         </h2>
 
         <Link
-          href="/client"
-          className="px-8 py-3 bg-blue-500 text-black rounded-xl font-semibold hover:bg-blue-400 transition"
+          href="/client/billing"
+          className="px-8 py-3 rounded-xl bg-blue-500 text-black font-semibold"
         >
-          Get Started Now
+          View Pricing
         </Link>
       </section>
 
+      {/* AI DEMO POPUP */}
+      {openChat && (
+        <div className="fixed bottom-6 right-6 w-80 bg-slate-900 border border-white/10 rounded-2xl shadow-2xl p-6">
+          <div className="flex justify-between mb-4">
+            <h4 className="font-semibold">AI Demo</h4>
+            <button onClick={() => setOpenChat(false)}>✕</button>
+          </div>
+          <p className="text-sm text-gray-400">
+            👋 Hi! I'm Resultify AI.
+          </p>
+        </div>
+      )}
     </main>
   );
 }
