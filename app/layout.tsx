@@ -1,12 +1,13 @@
 import "./globals.css";
 import Link from "next/link";
 import Image from "next/image";
-import { Analytics } from '@vercel/analytics/next';
 
 export const metadata = {
-  title: "Resultify Technologies",
+  title: "Resultify | AI Automation Platform",
   description: "AI Automation for Modern Businesses",
   openGraph: {
+    title: "Resultify AI",
+    description: "AI Automation for Modern Businesses",
     images: ["/og.png"],
   },
 };
@@ -18,45 +19,37 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body className="bg-[#020617] text-white">
+      <body className="bg-slate-950 text-white">
 
         {/* NAVBAR */}
-        <header className="flex justify-between items-center px-8 py-5 border-b border-white/10">
+        <header className="border-b border-white/10">
+          <div className="max-w-7xl mx-auto flex items-center justify-between px-6 py-4">
 
-          {/* LOGO */}
-          <Link href="/" className="flex items-center gap-3">
-            <Image
-              src="/logo.png"
-              alt="Resultify Logo"
-              width={36}
-              height={36}
-              priority
-            />
-            <span className="text-xl font-semibold tracking-wide">
-              Resultify
-            </span>
-          </Link>
+            <Link href="/" className="flex items-center gap-2">
+              <Image
+                src="/logo.png"
+                alt="Resultify Logo"
+                width={40}
+                height={40}
+              />
+              <span className="text-xl font-bold">Resultify</span>
+            </Link>
 
-          {/* NAV LINKS */}
-          <nav className="flex items-center gap-8 text-sm">
-            <Link href="/" className="hover:text-blue-400 transition">
-              Home
-            </Link>
-            <Link href="/client" className="hover:text-blue-400 transition">
-              Client
-            </Link>
-            <Link href="/client/billing" className="hover:text-blue-400 transition">
-              Billing
-            </Link>
-          </nav>
+            <nav className="flex gap-6 text-sm text-gray-300">
+              <Link href="/" className="hover:text-white transition">Home</Link>
+              <Link href="/client" className="hover:text-white transition">Client</Link>
+              <Link href="/client/billing" className="hover:text-white transition">Billing</Link>
+              <Link href="/contact" className="hover:text-white transition">Contact</Link>
+            </nav>
+          </div>
         </header>
 
+        {/* PAGE CONTENT */}
         {children}
-        <Analytics />
 
         {/* FOOTER */}
-        <footer className="mt-32 py-8 border-t border-white/10 text-center text-gray-400 text-sm">
-          Powered by <span className="text-white font-semibold">Resultify Technologies</span>
+        <footer className="mt-32 border-t border-white/10 py-8 text-center text-sm text-gray-500">
+          Powered by Resultify Technologies © {new Date().getFullYear()}
         </footer>
 
       </body>
