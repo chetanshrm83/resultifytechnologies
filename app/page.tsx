@@ -58,11 +58,6 @@ export default function HomePage() {
           ))}
         </div>
       </section>
-
-      {/* FOOTER */}
-      <footer className="text-center py-10 border-t border-white/10 text-gray-400">
-        Powered by Resultify Technologies
-      </footer>
     </main>
   );
 }
