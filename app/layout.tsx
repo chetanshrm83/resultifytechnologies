@@ -1,6 +1,7 @@
 import "./globals.css";
 import Link from "next/link";
 import Image from "next/image";
+import { Analytics } from '@vercel/analytics/next';
 
 export const metadata = {
   title: "Resultify Technologies",
@@ -51,6 +52,7 @@ export default function RootLayout({
         </header>
 
         {children}
+        <Analytics />
 
         {/* FOOTER */}
         <footer className="mt-32 py-8 border-t border-white/10 text-center text-gray-400 text-sm">
