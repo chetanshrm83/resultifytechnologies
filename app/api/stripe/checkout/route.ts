@@ -10,19 +10,31 @@ const supabaseServiceKey = process.env.SUPABASE_SERVICE_ROLE_KEY;
 const stripeSecretKey = process.env.STRIPE_SECRET_KEY;
 const siteUrl = process.env.NEXT_PUBLIC_SITE_URL;
 
-if (!supabaseUrl || !supabaseServiceKey) {
-  throw new Error("Missing Supabase server environment variables");
+// Initialize clients lazily to avoid build-time errors
+let stripe: Stripe | null = null;
+let supabase: ReturnType<typeof createClient> | null = null;
+
+function getClients() {
+  if (!supabaseUrl || !supabaseServiceKey) {
+    throw new Error("Missing Supabase server environment variables");
+  }
+
+  if (!stripeSecretKey) {
+    throw new Error("Missing STRIPE_SECRET_KEY");
+  }
+
+  if (!stripe) {
+    stripe = new Stripe(stripeSecretKey, {
+      apiVersion: "2023-10-16",
+    });
+  }
+
+  if (!supabase) {
+    supabase = createClient(supabaseUrl, supabaseServiceKey);
+  }
+
+  return { stripe, supabase };
 }
-
-if (!stripeSecretKey) {
-  throw new Error("Missing STRIPE_SECRET_KEY");
-}
-
-const stripe = new Stripe(stripeSecretKey, {
-  apiVersion: "2023-10-16",
-});
-
-const supabase = createClient(supabaseUrl, supabaseServiceKey);
 
 export async function POST(req: Request) {
   try {
@@ -35,6 +47,8 @@ export async function POST(req: Request) {
       );
     }
 
+    const { stripe, supabase } = getClients();
+
     // 🔍 Check if user already has Stripe customer
     const { data: profile } = await supabase
       .from("profiles")
@@ -42,7 +56,10 @@ export async function POST(req: Request) {
       .eq("id", userId)
       .single();
 
-    let customerId = profile?.stripe_customer_id;
+    let customerId: string | null = null;
+    if (profile && (profile as any).stripe_customer_id) {
+      customerId = (profile as any).stripe_customer_id;
+    }
 
     // 🆕 Create customer if not exists
     if (!customerId) {
@@ -53,7 +70,7 @@ export async function POST(req: Request) {
 
       customerId = customer.id;
 
-      await supabase.from("profiles").upsert({
+      await (supabase as any).from("profiles").upsert({
         id: userId,
         email,
         stripe_customer_id: customerId,

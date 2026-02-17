@@ -1,6 +1,7 @@
 import "./globals.css";
 import Link from "next/link";
 import Image from "next/image";
+import { Analytics } from '@vercel/analytics/next';
 
 export const metadata = {
   title: "Resultify – AI Automation for Modern Businesses",
@@ -47,6 +48,7 @@ export default function RootLayout({
         </header>
 
         {children}
+        <Analytics />
 
       </body>
     </html>
