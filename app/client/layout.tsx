@@ -1,8 +1,8 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { useRouter } from "next/navigation";
-import { supabase } from "../../lib/supabaseClient";
+import { supabase } from "@/lib/supabaseClient";
 
 export default function ClientLayout({
   children,
@@ -10,23 +10,12 @@ export default function ClientLayout({
   children: React.ReactNode;
 }) {
   const router = useRouter();
-  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     supabase.auth.getSession().then(({ data }) => {
-      if (!data.session) {
-        router.replace("/");
-      } else {
-        setLoading(false);
-      }
+      if (!data.session) router.replace("/");
     });
   }, [router]);
 
-  if (loading) return null;
-
-  return (
-    <div className="min-h-screen bg-slate-950 text-white p-6">
-      {children}
-    </div>
-  );
+  return <div className="p-10">{children}</div>;
 }

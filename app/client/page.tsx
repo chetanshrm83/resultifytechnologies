@@ -1,49 +1,37 @@
 "use client";
 
-import { useState } from "react";
-import { supabase } from "../../lib/supabaseClient";
+import { useEffect, useState } from "react";
 
-export default function ClientPage() {
-  const [email, setEmail] = useState("");
-  const [sent, setSent] = useState(false);
+export default function Dashboard() {
+  const [metrics, setMetrics] = useState<any>(null);
 
-  const login = async () => {
-    if (!email) return alert("Enter email");
+  useEffect(() => {
+    fetch("/api/dashboard/metrics", {
+      method: "POST",
+      body: JSON.stringify({ userId: "demo" }),
+    })
+      .then((res) => res.json())
+      .then((data) => setMetrics(data));
+  }, []);
 
-    const { error } = await supabase.auth.signInWithOtp({
-      email,
-      options: {
-        emailRedirectTo: `${process.env.NEXT_PUBLIC_SITE_URL}/client`,
-      },
-    });
-
-    if (error) alert(error.message);
-    else setSent(true);
-  };
+  if (!metrics) return <p>Loading...</p>;
 
   return (
-    <main className="p-10">
-      <h1 className="text-2xl font-semibold mb-6">Client Login</h1>
+    <div className="grid md:grid-cols-3 gap-6">
+      <div className="p-6 bg-white/5 rounded-xl">
+        <h2 className="text-3xl font-bold">{metrics.messages}</h2>
+        <p>Messages</p>
+      </div>
 
-      {sent ? (
-        <p className="text-green-400">Magic link sent. Check email.</p>
-      ) : (
-        <div className="flex gap-3">
-          <input
-            type="email"
-            placeholder="Enter email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            className="px-4 py-2 bg-slate-800 border border-white/10 rounded"
-          />
-          <button
-            onClick={login}
-            className="px-4 py-2 bg-blue-500 text-black rounded"
-          >
-            Send Link
-          </button>
-        </div>
-      )}
-    </main>
+      <div className="p-6 bg-white/5 rounded-xl">
+        <h2 className="text-3xl font-bold">{metrics.tokens}</h2>
+        <p>Tokens Used</p>
+      </div>
+
+      <div className="p-6 bg-white/5 rounded-xl">
+        <h2 className="text-3xl font-bold">₹{metrics.revenue}</h2>
+        <p>Revenue</p>
+      </div>
+    </div>
   );
 }

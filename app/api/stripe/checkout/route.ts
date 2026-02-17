@@ -1,57 +1,83 @@
 import { NextResponse } from "next/server";
 import Stripe from "stripe";
 import { createClient } from "@supabase/supabase-js";
-import { NextResponse } from "next/server";
 
-const stripe = new Stripe(process.env.STRIPE_SECRET_KEY as string, {
+export const dynamic = "force-dynamic"; // prevents build execution
+
+// ✅ Safe environment validation
+const supabaseUrl = process.env.SUPABASE_URL;
+const supabaseServiceKey = process.env.SUPABASE_SERVICE_ROLE_KEY;
+const stripeSecretKey = process.env.STRIPE_SECRET_KEY;
+const siteUrl = process.env.NEXT_PUBLIC_SITE_URL;
+
+if (!supabaseUrl || !supabaseServiceKey) {
+  throw new Error("Missing Supabase server environment variables");
+}
+
+if (!stripeSecretKey) {
+  throw new Error("Missing STRIPE_SECRET_KEY");
+}
+
+const stripe = new Stripe(stripeSecretKey, {
   apiVersion: "2023-10-16",
 });
 
-const supabase = createClient(
-  process.env.SUPABASE_URL!,
-  process.env.SUPABASE_SERVICE_ROLE_KEY!
-);
+const supabase = createClient(supabaseUrl, supabaseServiceKey);
 
 export async function POST(req: Request) {
   try {
     const { priceId, userId, email } = await req.json();
 
-    if (!priceId || !userId) {
-      return NextResponse.json({ error: "Missing data" }, { status: 400 });
+    if (!priceId || !userId || !email) {
+      return NextResponse.json(
+        { error: "Missing required data" },
+        { status: 400 }
+      );
     }
 
-    // ✅ Create Stripe customer
-    const customer = await stripe.customers.create({
-      email,
-      metadata: { userId },
-    });
-
-    // Save customer ID in Supabase
-    await supabase
+    // 🔍 Check if user already has Stripe customer
+    const { data: profile } = await supabase
       .from("profiles")
-      .upsert({
-        id: userId,
+      .select("stripe_customer_id")
+      .eq("id", userId)
+      .single();
+
+    let customerId = profile?.stripe_customer_id;
+
+    // 🆕 Create customer if not exists
+    if (!customerId) {
+      const customer = await stripe.customers.create({
         email,
-        stripe_customer_id: customer.id,
+        metadata: { userId },
       });
 
-    // ✅ Create checkout session
+      customerId = customer.id;
+
+      await supabase.from("profiles").upsert({
+        id: userId,
+        email,
+        stripe_customer_id: customerId,
+      });
+    }
+
+    // 🛒 Create checkout session
     const session = await stripe.checkout.sessions.create({
       mode: "subscription",
-      customer: customer.id,
+      customer: customerId,
+      payment_method_types: ["card"],
       line_items: [{ price: priceId, quantity: 1 }],
-
       metadata: { userId },
-
-      success_url: `${process.env.NEXT_PUBLIC_SITE_URL}/success`,
-      cancel_url: `${process.env.NEXT_PUBLIC_SITE_URL}/cancel`,
+      success_url: `${siteUrl}/success`,
+      cancel_url: `${siteUrl}/cancel`,
     });
 
     return NextResponse.json({ url: session.url });
 
-  } catch (err) {
-    console.error(err);
-    return NextResponse.json({ error: "Stripe error" }, { status: 500 });
+  } catch (error: any) {
+    console.error("Stripe checkout error:", error);
+    return NextResponse.json(
+      { error: error.message || "Server error" },
+      { status: 500 }
+    );
   }
-  return NextResponse.json({ url: session.url });
 }
