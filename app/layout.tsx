@@ -3,10 +3,11 @@ import Link from "next/link";
 import Image from "next/image";
 
 export const metadata = {
-  title: "Resultify",
-  description: "AI Automation for Modern Businesses",
+  title: "Resultify – AI Automation for Modern Businesses",
+  description: "AI automation platform for marketing, sales, support & analytics.",
   openGraph: {
-    images: "/og.png",
+    title: "Resultify – AI Automation",
+    images: ["/og.png"],
   },
 };
 
