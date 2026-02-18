@@ -2,29 +2,40 @@
 
 import { useEffect, useState } from "react";
 import { supabase } from "@/lib/supabaseClient";
+
 export default function InvestorPage() {
-  const [revenue, setRevenue] = useState(0);
+  const [totalRevenue, setTotalRevenue] = useState(0);
 
   useEffect(() => {
     const load = async () => {
-      const supabase = getSupabase();
-      const { data } = await supabase.from("revenue_events").select("amount");
+      const { data, error } = await supabase
+        .from("revenue_events")
+        .select("amount");
 
-      const total = data?.reduce((a, b) => a + Number(b.amount), 0) || 0;
-      setRevenue(total);
+      if (error) {
+        console.error(error);
+        return;
+      }
+
+      const total =
+        data?.reduce((a: number, b: any) => a + Number(b.amount), 0) || 0;
+
+      setTotalRevenue(total);
     };
 
     load();
   }, []);
 
   return (
-    <main className="p-10">
-      <h1 className="text-3xl font-bold mb-10">Investor Analytics</h1>
+    <main className="max-w-6xl mx-auto p-10 text-white">
+      <h1 className="text-3xl font-bold mb-10">
+        Investor Dashboard
+      </h1>
 
-      <div className="bg-white/5 p-8 rounded-xl">
-        <h3>Total Revenue</h3>
-        <p className="text-4xl font-bold text-green-400">
-          ₹{revenue.toLocaleString()}
+      <div className="rounded-2xl p-8 bg-white/5 border border-white/10">
+        <p className="text-gray-400">Total Subscription Revenue</p>
+        <p className="text-4xl font-bold mt-4">
+          ₹{totalRevenue.toLocaleString()}
         </p>
       </div>
     </main>
