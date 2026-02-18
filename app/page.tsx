@@ -146,6 +146,14 @@ export default function HomePage() {
       )}
       import AIDemoPopup from "@/components/AIDemoPopup";
       <AIDemoPopup />
+      <a
+  href="https://wa.me/919717188869"
+  target="_blank"
+  rel="noopener noreferrer"
+  className="fixed bottom-6 left-6 bg-green-500 p-4 rounded-full shadow-2xl hover:scale-110 transition-all duration-300"
+>
+  <span className="text-2xl">💬</span>
+</a>
     </main>
   );
 }
