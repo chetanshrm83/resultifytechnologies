@@ -2,13 +2,11 @@
 
 import { useEffect, useState } from "react";
 import { supabase } from "@/lib/supabaseClient";
-
 export default function ClientDashboard() {
   const [metrics, setMetrics] = useState<any>(null);
 
   useEffect(() => {
     const fetchData = async () => {
-      const supabase = getSupabase();
 
       const { data: usage } = await supabase
         .from("ai_usage")
