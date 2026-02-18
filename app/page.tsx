@@ -96,11 +96,6 @@ export default function HomePage() {
           Try AI Demo
         </button>
       </section>
-
-      {/* FOOTER */}
-      <footer className="text-center text-gray-500 border-t border-white/10 pt-8">
-        Powered by Resultify Technologies
-      </footer>
     </main>
   );
 }
