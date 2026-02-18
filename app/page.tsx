@@ -4,7 +4,6 @@ import Link from "next/link";
 import { useState } from "react";
 import { motion } from "framer-motion";
 import { Bot } from "lucide-react";
-import AIDemoPopup from "@/components/AIDemoPopup";
 
 export default function HomePage() {
   const [openDemo, setOpenDemo] = useState(false);
@@ -145,6 +144,8 @@ export default function HomePage() {
           />
         </div>
       )}
+      import AIDemoPopup from "@/components/AIDemoPopup";
+      <AIDemoPopup />
     </main>
   );
 }
