@@ -1,8 +1,6 @@
 "use client";
 
 import { useState } from "react";
-import { motion } from "framer-motion";
-import Link from "next/link";
 
 export default function HomePage() {
   const [openChat, setOpenChat] = useState(false);
@@ -48,43 +46,29 @@ export default function HomePage() {
   }
 
   return (
-    <main className="min-h-screen bg-slate-950 text-white px-6 py-20">
-
-      {/* HERO */}
-      <section className="text-center mb-32">
-        <motion.h1
-          initial={{ opacity: 0, y: 40 }}
-          animate={{ opacity: 1, y: 0 }}
-          className="text-5xl md:text-7xl font-bold mb-6"
-        >
-          AI Automation For Modern Businesses
-        </motion.h1>
-
+    <main className="min-h-screen px-6 py-16 max-w-7xl mx-auto text-white">
+      
+      {/* HERO SECTION */}
+      <section className="text-center mb-24">
+        <h1 className="text-5xl font-bold mb-6">
+          AI Automation for Modern Businesses
+        </h1>
         <p className="text-gray-400 max-w-3xl mx-auto mb-8">
-          Automate marketing, sales, support, collections and analytics using
-          AI-powered agents.
+          Resultify automates marketing, sales, support, collections and analytics using AI.
         </p>
-
-        <div className="flex justify-center gap-6">
-          <Link
-            href="/client"
-            className="px-8 py-3 bg-blue-500 text-black rounded-xl font-semibold"
-          >
-            Get Started
-          </Link>
-
-          <button
-            onClick={() => setOpenChat(true)}
-            className="px-8 py-3 border border-white/20 rounded-xl"
-          >
-            Try Live AI Demo
-          </button>
-        </div>
       </section>
+
+      {/* Floating AI Button */}
+      <button
+        onClick={() => setOpenChat(true)}
+        className="fixed bottom-6 right-6 bg-blue-500 text-black px-5 py-3 rounded-full shadow-xl z-40"
+      >
+        AI Demo
+      </button>
 
       {/* AI POPUP */}
       {openChat && (
-        <div className="fixed bottom-6 right-6 w-96 bg-slate-900 border border-white/10 rounded-2xl shadow-2xl p-6 z-50">
+        <div className="fixed bottom-20 right-6 w-96 bg-slate-900 border border-white/10 rounded-2xl shadow-2xl p-6 z-50">
           <div className="flex justify-between items-center mb-4">
             <h4 className="font-semibold">Resultify AI Demo</h4>
             <button onClick={() => setOpenChat(false)}>✕</button>
