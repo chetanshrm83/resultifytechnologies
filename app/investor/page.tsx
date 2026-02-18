@@ -5,25 +5,30 @@ import { supabase } from "@/lib/supabaseClient";
 
 export default function InvestorPage() {
   const [totalRevenue, setTotalRevenue] = useState(0);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const load = async () => {
+    const loadRevenue = async () => {
       const { data, error } = await supabase
         .from("revenue_events")
         .select("amount");
 
       if (error) {
-        console.error(error);
+        console.error("Revenue fetch error:", error);
+        setLoading(false);
         return;
       }
 
       const total =
-        data?.reduce((a: number, b: any) => a + Number(b.amount), 0) || 0;
+        data?.reduce((sum: number, row: any) => {
+          return sum + Number(row.amount);
+        }, 0) || 0;
 
       setTotalRevenue(total);
+      setLoading(false);
     };
 
-    load();
+    loadRevenue();
   }, []);
 
   return (
@@ -33,10 +38,17 @@ export default function InvestorPage() {
       </h1>
 
       <div className="rounded-2xl p-8 bg-white/5 border border-white/10">
-        <p className="text-gray-400">Total Subscription Revenue</p>
-        <p className="text-4xl font-bold mt-4">
-          ₹{totalRevenue.toLocaleString()}
+        <p className="text-gray-400">
+          Total Subscription Revenue
         </p>
+
+        {loading ? (
+          <p className="text-gray-500 mt-4">Loading...</p>
+        ) : (
+          <p className="text-4xl font-bold mt-4 text-green-400">
+            ₹{totalRevenue.toLocaleString()}
+          </p>
+        )}
       </div>
     </main>
   );
