@@ -1,111 +1,106 @@
 "use client";
 
 import { useState } from "react";
+import {
+  Megaphone,
+  Headset,
+  CreditCard,
+  Bot,
+  BarChart3,
+  Building2,
+} from "lucide-react";
 
 export default function HomePage() {
   const [openChat, setOpenChat] = useState(false);
-  const [messages, setMessages] = useState([
+
+  const agents = [
     {
-      role: "assistant",
-      content:
-        "👋 Hi! I'm Resultify AI. Ask me how we automate marketing, sales or support.",
+      icon: Megaphone,
+      title: "Marketing & Sales",
+      desc: "Qualify leads and convert conversations automatically 24/7.",
     },
-  ]);
-  const [input, setInput] = useState("");
-  const [loading, setLoading] = useState(false);
-
-  async function sendMessage() {
-    if (!input) return;
-
-    const userMessage = { role: "user", content: input };
-    setMessages((prev) => [...prev, userMessage]);
-    setInput("");
-    setLoading(true);
-
-    try {
-      const res = await fetch("/api/ai-demo", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ message: input }),
-      });
-
-      const data = await res.json();
-
-      setMessages((prev) => [
-        ...prev,
-        { role: "assistant", content: data.reply },
-      ]);
-    } catch (err) {
-      setMessages((prev) => [
-        ...prev,
-        { role: "assistant", content: "⚠️ AI failed. Try again." },
-      ]);
-    }
-
-    setLoading(false);
-  }
+    {
+      icon: Headset,
+      title: "Customer Experience",
+      desc: "Deliver instant AI-powered support across channels.",
+    },
+    {
+      icon: CreditCard,
+      title: "Collections",
+      desc: "Automate reminders and payment follow-ups.",
+    },
+    {
+      icon: Bot,
+      title: "Agent Assist",
+      desc: "Real-time AI suggestions for human agents.",
+    },
+    {
+      icon: BarChart3,
+      title: "Analytics",
+      desc: "Track revenue and automation performance.",
+    },
+    {
+      icon: Building2,
+      title: "Internal Help Desk",
+      desc: "Answer SOP and employee queries instantly.",
+    },
+  ];
 
   return (
     <main className="min-h-screen px-6 py-16 max-w-7xl mx-auto text-white">
-      
-      {/* HERO SECTION */}
-      <section className="text-center mb-24">
+
+      {/* HERO */}
+      <section className="text-center mb-28">
         <h1 className="text-5xl font-bold mb-6">
           AI Automation for Modern Businesses
         </h1>
-        <p className="text-gray-400 max-w-3xl mx-auto mb-8">
+        <p className="text-gray-400 max-w-3xl mx-auto">
           Resultify automates marketing, sales, support, collections and analytics using AI.
         </p>
       </section>
 
-      {/* Floating AI Button */}
-      <button
-        onClick={() => setOpenChat(true)}
-        className="fixed bottom-6 right-6 bg-blue-500 text-black px-5 py-3 rounded-full shadow-xl z-40"
-      >
-        AI Demo
-      </button>
+      {/* AI AGENTS SECTION */}
+      <section className="mb-32">
+        <h2 className="text-4xl font-bold text-center mb-12">
+          Deploy AI Agents Across Your Business
+        </h2>
 
-      {/* AI POPUP */}
-      {openChat && (
-        <div className="fixed bottom-20 right-6 w-96 bg-slate-900 border border-white/10 rounded-2xl shadow-2xl p-6 z-50">
-          <div className="flex justify-between items-center mb-4">
-            <h4 className="font-semibold">Resultify AI Demo</h4>
-            <button onClick={() => setOpenChat(false)}>✕</button>
-          </div>
-
-          <div className="h-64 overflow-y-auto space-y-3 mb-4 text-sm">
-            {messages.map((msg, i) => (
-              <div
-                key={i}
-                className={`p-3 rounded-lg ${
-                  msg.role === "assistant"
-                    ? "bg-white/10 text-gray-300"
-                    : "bg-blue-500 text-black ml-auto"
-                }`}
-              >
-                {msg.content}
-              </div>
-            ))}
-            {loading && <div className="text-gray-400">Thinking...</div>}
-          </div>
-
-          <div className="flex gap-2">
-            <input
-              value={input}
-              onChange={(e) => setInput(e.target.value)}
-              placeholder="Ask about automation..."
-              className="flex-1 px-3 py-2 bg-black/40 rounded-lg border border-white/10 text-sm"
-            />
-            <button
-              onClick={sendMessage}
-              className="px-4 py-2 bg-blue-500 text-black rounded-lg"
+        <div className="grid md:grid-cols-3 gap-8">
+          {agents.map((item) => (
+            <div
+              key={item.title}
+              className="group relative rounded-2xl p-8 border border-white/10 hover:border-blue-400 transition-all duration-300 bg-white/5"
             >
-              Send
-            </button>
-          </div>
+              <item.icon className="w-8 h-8 text-blue-400 mb-4" />
+
+              <h3 className="text-xl font-semibold">{item.title}</h3>
+
+              {/* Hover Description */}
+              <div className="absolute inset-0 bg-black/80 opacity-0 group-hover:opacity-100 transition-opacity duration-300 rounded-2xl flex items-center justify-center text-center p-6 text-gray-300 text-sm">
+                {item.desc}
+              </div>
+            </div>
+          ))}
         </div>
-      )}
+      </section>
+
+      {/* CTA */}
+      <section className="text-center mb-32">
+        <h2 className="text-3xl font-bold mb-6">
+          Ready to Scale With AI?
+        </h2>
+        <button
+          onClick={() => setOpenChat(true)}
+          className="px-8 py-3 bg-blue-500 text-black rounded-xl"
+        >
+          Try AI Demo
+        </button>
+      </section>
+
+      {/* FOOTER */}
+      <footer className="text-center text-gray-500 border-t border-white/10 pt-8">
+        Powered by Resultify Technologies
+      </footer>
     </main>
   );
 }
