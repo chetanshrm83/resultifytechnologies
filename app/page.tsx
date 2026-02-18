@@ -17,6 +17,7 @@ export default function HomePage() {
   const [openChat, setOpenChat] = useState(false);
   const [openFAQ, setOpenFAQ] = useState<number | null>(null);
   const [testimonialIndex, setTestimonialIndex] = useState(0);
+  const [yearly, setYearly] = useState(false); // ✅ MOVED HERE (IMPORTANT)
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -29,7 +30,11 @@ export default function HomePage() {
     <main className="relative px-6 py-16 max-w-7xl mx-auto text-white">
 
       {/* ================= HERO ================= */}
-      <section className="text-center mb-28">
+      <section className="text-center mb-28 relative">
+
+        {/* Animated Background Glow */}
+        <div className="absolute inset-0 -z-10 bg-gradient-to-r from-blue-500/10 via-purple-500/10 to-pink-500/10 blur-3xl animate-pulse" />
+
         <motion.img
           src="/logo.png"
           alt="Resultify Logo"
@@ -115,15 +120,13 @@ export default function HomePage() {
             <motion.div
               key={item.title}
               initial={{ opacity: 0, y: 20 }}
+              whileHover={{ scale: 1.05 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: i * 0.1 }}
-              whileHover={{ scale: 1.05 }}
               className="group relative rounded-2xl p-8 border border-white/10 bg-white/5 hover:border-blue-400 transition-all"
             >
               <item.icon className="w-8 h-8 text-blue-400 mb-4" />
-              <h3 className="text-xl font-semibold mb-3">
-                {item.title}
-              </h3>
+              <h3 className="text-xl font-semibold mb-3">{item.title}</h3>
 
               <div className="absolute inset-0 flex items-center justify-center bg-black/80 text-sm opacity-0 group-hover:opacity-100 transition rounded-2xl p-6 text-center">
                 {item.desc}
@@ -133,17 +136,42 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* ================= PRICING PREVIEW ================= */}
+      {/* ================= PRICING ================= */}
       <section className="mb-32 text-center">
-        <h2 className="text-3xl md:text-5xl font-bold mb-16">
+        <h2 className="text-3xl md:text-5xl font-bold mb-12">
           Simple Transparent Pricing
         </h2>
 
+        {/* Toggle */}
+        <div className="flex justify-center mb-12 gap-6">
+          <button
+            onClick={() => setYearly(false)}
+            className={!yearly ? "font-bold text-white" : "text-gray-400"}
+          >
+            Monthly
+          </button>
+          <button
+            onClick={() => setYearly(true)}
+            className={yearly ? "font-bold text-white" : "text-gray-400"}
+          >
+            Yearly (Save 20%)
+          </button>
+        </div>
+
         <div className="grid md:grid-cols-3 gap-8">
           {[
-            { name: "Starter", price: "₹2,999 / month" },
-            { name: "Growth", price: "₹9,999 / month" },
-            { name: "Enterprise", price: "Custom" },
+            {
+              name: "Starter",
+              price: yearly ? "₹28,800 / year" : "₹2,999 / month",
+            },
+            {
+              name: "Growth",
+              price: yearly ? "₹95,000 / year" : "₹9,999 / month",
+            },
+            {
+              name: "Enterprise",
+              price: "Custom",
+            },
           ].map((plan, i) => (
             <motion.div
               key={plan.name}
@@ -168,7 +196,7 @@ export default function HomePage() {
 
       {/* ================= TESTIMONIALS ================= */}
       <section className="mb-32 text-center">
-        <h2 className="text-3xl md:text-5xl font-bold mb-16">
+        <h2 className="text-3xl md:text-5xl font-bold mb-12">
           What Businesses Say
         </h2>
 
@@ -186,63 +214,11 @@ export default function HomePage() {
         </motion.div>
       </section>
 
-      {/* ================= FAQ ================= */}
-      <section className="mb-32 max-w-4xl mx-auto">
-        <h2 className="text-3xl md:text-5xl font-bold text-center mb-12">
-          Frequently Asked Questions
-        </h2>
-
-        {[
-          {
-            q: "How does Resultify AI work?",
-            a: "We deploy AI agents across marketing, sales, support and analytics."
-          },
-          {
-            q: "Is WhatsApp supported?",
-            a: "Yes. WhatsApp integration is fully supported."
-          },
-          {
-            q: "Is billing automated?",
-            a: "Stripe handles subscriptions and usage billing."
-          }
-        ].map((faq, i) => (
-          <div
-            key={i}
-            className="border border-white/10 rounded-xl bg-white/5 mb-4"
-          >
-            <button
-              onClick={() => setOpenFAQ(openFAQ === i ? null : i)}
-              className="w-full p-6 text-left flex justify-between font-semibold"
-            >
-              {faq.q}
-              <span>{openFAQ === i ? "−" : "+"}</span>
-            </button>
-
-            <AnimatePresence>
-              {openFAQ === i && (
-                <motion.div
-                  initial={{ height: 0, opacity: 0 }}
-                  animate={{ height: "auto", opacity: 1 }}
-                  exit={{ height: 0, opacity: 0 }}
-                  className="px-6 pb-6 text-gray-400"
-                >
-                  {faq.a}
-                </motion.div>
-              )}
-            </AnimatePresence>
-          </div>
-        ))}
-      </section>
-
       {/* ================= FINAL CTA ================= */}
       <section className="text-center py-20 bg-gradient-to-r from-blue-500/10 to-purple-500/10 rounded-3xl border border-white/10">
         <h2 className="text-3xl md:text-4xl font-bold mb-6">
           Ready to Scale With AI?
         </h2>
-
-        <p className="text-gray-400 mb-8">
-          Join businesses automating sales, support, and growth using Resultify.
-        </p>
 
         <button
           onClick={() => setOpenChat(true)}
