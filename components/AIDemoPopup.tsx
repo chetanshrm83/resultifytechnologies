@@ -2,95 +2,53 @@
 
 import { useState } from "react";
 
-export default function AIDemoPopup() {
-  const [open, setOpen] = useState(false);
-  const [messages, setMessages] = useState<any[]>([
-    { role: "assistant", content: "👋 Hi! I'm Resultify AI. How can I help your business today?" }
-  ]);
-  const [input, setInput] = useState("");
-  const [loading, setLoading] = useState(false);
+export default function AIDemoPopup({ onClose }: { onClose: () => void }) {
+  const [message, setMessage] = useState("");
+  const [response, setResponse] = useState("");
 
   const sendMessage = async () => {
-    if (!input.trim()) return;
+    if (!message) return;
 
-    const newMessages = [...messages, { role: "user", content: input }];
-    setMessages(newMessages);
-    setInput("");
-    setLoading(true);
+    const res = await fetch("/api/ai-demo", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ message }),
+    });
 
-    try {
-      const res = await fetch("/api/ai-demo", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ messages: newMessages }),
-      });
-
-      const data = await res.json();
-
-      setMessages([
-        ...newMessages,
-        { role: "assistant", content: data.reply },
-      ]);
-    } catch (err) {
-      console.error(err);
-    }
-
-    setLoading(false);
+    const data = await res.json();
+    setResponse(data.reply || "No response");
   };
 
   return (
-    <>
-      {/* Floating Button */}
-      <button
-        onClick={() => setOpen(!open)}
-        className="fixed bottom-6 right-6 bg-blue-600 text-white px-4 py-3 rounded-full shadow-lg"
-      >
-        AI Demo
-      </button>
+    <div className="fixed bottom-24 right-6 w-80 bg-slate-900 border border-white/10 rounded-2xl shadow-2xl p-6">
+      <div className="flex justify-between mb-4">
+        <h4 className="font-semibold">Resultify AI</h4>
+        <button onClick={onClose}>✕</button>
+      </div>
 
-      {/* Popup */}
-      {open && (
-        <div className="fixed bottom-20 right-6 w-96 bg-slate-900 border border-white/10 rounded-2xl shadow-2xl p-4 flex flex-col">
-          <div className="flex justify-between items-center mb-4">
-            <h4 className="font-semibold">Resultify AI</h4>
-            <button onClick={() => setOpen(false)}>✕</button>
-          </div>
+      <div className="text-sm text-gray-400 mb-3">
+        👋 Ask me how AI can grow your business.
+      </div>
 
-          <div className="flex-1 overflow-y-auto space-y-3 mb-3 max-h-64">
-            {messages.map((m, i) => (
-              <div
-                key={i}
-                className={`text-sm p-2 rounded-lg ${
-                  m.role === "user"
-                    ? "bg-blue-500/20 text-right"
-                    : "bg-white/10"
-                }`}
-              >
-                {m.content}
-              </div>
-            ))}
-            {loading && (
-              <div className="text-gray-400 text-sm">Thinking...</div>
-            )}
-          </div>
-
-          <div className="flex gap-2">
-            <input
-              value={input}
-              onChange={(e) => setInput(e.target.value)}
-              onKeyDown={(e) => e.key === "Enter" && sendMessage()}
-              placeholder="Type your message..."
-              className="flex-1 px-3 py-2 bg-black/40 rounded-lg border border-white/10 text-sm"
-            />
-            <button
-              onClick={sendMessage}
-              className="px-4 py-2 bg-blue-500 rounded-lg text-white"
-            >
-              Send
-            </button>
-          </div>
+      {response && (
+        <div className="bg-black/40 p-3 rounded mb-3 text-sm">
+          {response}
         </div>
       )}
-    </>
+
+      <input
+        value={message}
+        onChange={(e) => setMessage(e.target.value)}
+        placeholder="Type a message..."
+        className="w-full px-3 py-2 bg-black/40 rounded-lg border border-white/10 text-sm mb-3"
+      />
+
+      <button
+        onClick={sendMessage}
+        className="w-full bg-blue-500 py-2 rounded-lg text-black font-semibold hover:bg-blue-400"
+      >
+        Send
+      </button>
+    </div>
   );
 }
