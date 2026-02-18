@@ -3,150 +3,147 @@
 import Link from "next/link";
 import { useState } from "react";
 import { motion } from "framer-motion";
-import CountUp from "react-countup";
-import {
-  Megaphone,
-  Headset,
-  CreditCard,
-  Bot,
-  BarChart3,
-  Building2,
-} from "lucide-react";
+import { Bot } from "lucide-react";
 
 export default function HomePage() {
-  const [openChat, setOpenChat] = useState(false);
+  const [openDemo, setOpenDemo] = useState(false);
 
   return (
-    <main className="px-6 py-16 max-w-7xl mx-auto relative">
+    <main className="relative min-h-screen bg-slate-950 text-white">
 
-      {/* HERO */}
-      <section className="text-center mb-28">
-        <h1 className="text-5xl md:text-6xl font-bold mb-6">
-          AI Automation for Modern Businesses
-        </h1>
+      {/* ================= HEADER ================= */}
+      <header className="flex justify-between items-center px-8 py-6 border-b border-white/10">
 
-        <p className="text-lg text-gray-400 max-w-3xl mx-auto mb-8">
-          Resultify automates marketing, sales, support, collections and analytics using AI.
-        </p>
+        {/* LOGO */}
+        <Link href="/" className="flex items-center gap-2 text-xl font-bold">
+          <Bot className="w-6 h-6 text-blue-400" />
+          Resultify
+        </Link>
 
-        <div className="flex justify-center gap-4">
+        {/* NAV LINKS */}
+        <nav className="flex gap-6 text-sm">
+          <Link href="/#features" className="hover:text-blue-400 transition">
+            Features
+          </Link>
+          <Link href="/client/billing" className="hover:text-blue-400 transition">
+            Pricing
+          </Link>
+          <Link href="/contact" className="hover:text-blue-400 transition">
+            Contact
+          </Link>
           <Link
             href="/client"
-            className="px-8 py-3 rounded-xl bg-blue-500 text-black font-semibold hover:bg-blue-400 transition"
+            className="px-4 py-2 bg-blue-500 text-black rounded-lg font-medium hover:bg-blue-400 transition"
           >
-            Start Free Trial
+            Start Free
+          </Link>
+        </nav>
+      </header>
+
+      {/* ================= HERO ================= */}
+      <section className="text-center px-6 py-24 max-w-6xl mx-auto">
+
+        <motion.h1
+          initial={{ opacity: 0, y: 30 }}
+          animate={{ opacity: 1, y: 0 }}
+          className="text-5xl md:text-6xl font-bold mb-6"
+        >
+          AI Automation for Modern Businesses
+        </motion.h1>
+
+        <p className="text-gray-400 text-lg max-w-3xl mx-auto mb-10">
+          Resultify automates marketing, sales, support, collections,
+          analytics and internal workflows using intelligent AI agents.
+        </p>
+
+        <div className="flex justify-center gap-6">
+
+          <Link
+            href="/client"
+            className="px-8 py-3 bg-blue-500 text-black rounded-xl font-semibold hover:bg-blue-400 transition"
+          >
+            Start Trial
           </Link>
 
           <button
-            onClick={() => setOpenChat(true)}
-            className="px-8 py-3 rounded-xl border border-white/20 hover:bg-white/10 transition"
+            onClick={() => setOpenDemo(true)}
+            className="px-8 py-3 border border-white/20 rounded-xl hover:bg-white/10 transition"
           >
             Try AI Demo
           </button>
+
         </div>
       </section>
 
-      {/* METRICS */}
-      <section className="grid md:grid-cols-3 gap-8 text-center mb-32">
+      {/* ================= FEATURES ================= */}
+      <section
+        id="features"
+        className="grid md:grid-cols-3 gap-8 max-w-6xl mx-auto px-6 pb-24"
+      >
         {[
-          { label: "Conversations Automated", value: 124000 },
-          { label: "Revenue Generated", value: 3200000, prefix: "₹" },
-          { label: "Businesses Using Resultify", value: 420 },
+          {
+            title: "Marketing & Sales",
+            desc: "Convert leads automatically using AI.",
+          },
+          {
+            title: "Customer Experience",
+            desc: "24/7 AI support across WhatsApp & Web.",
+          },
+          {
+            title: "Collections",
+            desc: "Automated reminders & payment follow-ups.",
+          },
+          {
+            title: "Agent Assist",
+            desc: "AI suggestions for your internal teams.",
+          },
+          {
+            title: "Analytics",
+            desc: "Real-time dashboards & revenue tracking.",
+          },
+          {
+            title: "Internal Help Desk",
+            desc: "Instant SOP & employee assistance.",
+          },
         ].map((item) => (
           <div
-            key={item.label}
-            className="rounded-2xl p-8 bg-white/5 border border-white/10"
+            key={item.title}
+            className="group relative p-8 rounded-2xl border border-white/10 bg-white/5 hover:border-blue-400 transition"
           >
-            <h3 className="text-4xl font-bold text-blue-400">
-              {item.prefix || ""}
-              <CountUp end={item.value} duration={2} separator="," />
+            <h3 className="text-xl font-semibold mb-4">
+              {item.title}
             </h3>
-            <p className="text-gray-400 mt-3">{item.label}</p>
+
+            <p className="text-gray-400 opacity-0 group-hover:opacity-100 transition duration-300">
+              {item.desc}
+            </p>
           </div>
         ))}
       </section>
 
-      {/* AI AGENTS */}
-      <section className="mb-32">
-        <h2 className="text-4xl font-bold text-center mb-12">
-          Deploy AI Agents Across Your Business
-        </h2>
-
-        <div className="grid md:grid-cols-3 gap-8">
-          {[
-            {
-              icon: Megaphone,
-              title: "Marketing & Sales",
-              desc: "Qualify leads and convert conversations 24/7.",
-            },
-            {
-              icon: Headset,
-              title: "Customer Experience",
-              desc: "Instant AI-powered support on WhatsApp & web.",
-            },
-            {
-              icon: CreditCard,
-              title: "Collections",
-              desc: "Automate reminders and renewals.",
-            },
-            {
-              icon: Bot,
-              title: "Agent Assist",
-              desc: "Real-time AI suggestions for teams.",
-            },
-            {
-              icon: BarChart3,
-              title: "Analytics",
-              desc: "Track revenue and AI performance.",
-            },
-            {
-              icon: Building2,
-              title: "Internal Help Desk",
-              desc: "Answer employee queries instantly.",
-            },
-          ].map((item) => (
-            <div
-              key={item.title}
-              className="group relative rounded-2xl p-8 bg-white/5 border border-white/10 hover:border-blue-400 transition"
-            >
-              <item.icon className="w-8 h-8 text-blue-400 mb-4" />
-              <h3 className="text-xl font-semibold">{item.title}</h3>
-
-              <div className="absolute inset-0 bg-black/80 opacity-0 group-hover:opacity-100 transition rounded-2xl flex items-center justify-center p-6 text-center text-gray-300">
-                {item.desc}
-              </div>
-            </div>
-          ))}
-        </div>
-      </section>
-
-      {/* FOOTER */}
-      <footer className="border-t border-white/10 pt-10 text-center text-gray-400">
+      {/* ================= FOOTER ================= */}
+      <footer className="border-t border-white/10 py-10 text-center text-gray-500">
         Powered by Resultify Technologies
       </footer>
 
-      {/* AI POPUP */}
-      {openChat && (
+      {/* ================= AI DEMO POPUP ================= */}
+      {openDemo && (
         <div className="fixed bottom-6 right-6 w-80 bg-slate-900 border border-white/10 rounded-2xl shadow-2xl p-6 z-50">
-          <div className="flex justify-between mb-4">
+          <div className="flex justify-between items-center mb-4">
             <h4 className="font-semibold">AI Demo</h4>
-            <button onClick={() => setOpenChat(false)}>✕</button>
+            <button onClick={() => setOpenDemo(false)}>✕</button>
           </div>
 
-          <p className="text-sm text-gray-400">
-            👋 Hi! I'm Resultify AI. (Live OpenAI integration comes next.)
+          <p className="text-sm text-gray-400 mb-4">
+            👋 Hi! I’m Resultify AI. Ask me anything.
           </p>
+
+          <input
+            placeholder="Type a message..."
+            className="w-full px-3 py-2 bg-black/40 rounded-lg border border-white/10 text-sm"
+          />
         </div>
       )}
-
-      {/* WHATSAPP FLOATING */}
-      <a
-        href="https://wa.me/919999999999"
-        target="_blank"
-        className="fixed bottom-6 left-6 bg-green-500 text-white p-4 rounded-full shadow-lg hover:scale-110 transition z-50"
-      >
-        💬
-      </a>
     </main>
   );
 }
