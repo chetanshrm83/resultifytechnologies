@@ -5,29 +5,39 @@ export async function POST(req: Request) {
   try {
     const { message } = await req.json();
 
+    if (!process.env.OPENAI_API_KEY) {
+      return NextResponse.json(
+        { error: "Missing OpenAI API key" },
+        { status: 500 }
+      );
+    }
+
     const openai = new OpenAI({
-      apiKey: process.env.OPENAI_API_KEY!,
+      apiKey: process.env.OPENAI_API_KEY,
     });
 
-    const completion = await openai.chat.completions.create({
+    const response = await openai.chat.completions.create({
       model: "gpt-4o-mini",
       messages: [
         {
           role: "system",
           content:
-            "You are Resultify AI. Help businesses understand how AI automation can improve marketing, sales, support, and analytics.",
+            "You are Resultify AI assistant helping businesses automate operations.",
         },
-        { role: "user", content: message },
+        {
+          role: "user",
+          content: message,
+        },
       ],
     });
 
     return NextResponse.json({
-      reply: completion.choices[0].message.content,
+      reply: response.choices[0].message.content,
     });
   } catch (error: any) {
-    console.error(error);
+    console.error("AI error:", error);
     return NextResponse.json(
-      { error: "AI request failed" },
+      { error: error.message || "AI failed" },
       { status: 500 }
     );
   }
