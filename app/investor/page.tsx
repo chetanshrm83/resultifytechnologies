@@ -1,55 +1,39 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { supabase } from "@/lib/supabaseClient";
+import { motion } from "framer-motion";
 
 export default function InvestorPage() {
-  const [totalRevenue, setTotalRevenue] = useState(0);
-  const [loading, setLoading] = useState(true);
+  const [revenue, setRevenue] = useState(0);
 
   useEffect(() => {
-    const loadRevenue = async () => {
-      const { data, error } = await supabase
-        .from("revenue_events")
-        .select("amount");
-
-      if (error) {
-        console.error("Revenue fetch error:", error);
-        setLoading(false);
-        return;
-      }
-
-      const total =
-        data?.reduce((sum: number, row: any) => {
-          return sum + Number(row.amount);
-        }, 0) || 0;
-
-      setTotalRevenue(total);
-      setLoading(false);
-    };
-
-    loadRevenue();
+    fetch("/api/stripe/revenue")
+      .then(res => res.json())
+      .then(data => setRevenue(data.revenue || 0));
   }, []);
 
   return (
-    <main className="max-w-6xl mx-auto p-10 text-white">
-      <h1 className="text-3xl font-bold mb-10">
+    <main className="max-w-6xl mx-auto p-16 text-white">
+
+      <motion.h1
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        className="text-4xl font-bold mb-12"
+      >
         Investor Dashboard
-      </h1>
+      </motion.h1>
 
-      <div className="rounded-2xl p-8 bg-white/5 border border-white/10">
-        <p className="text-gray-400">
-          Total Subscription Revenue
+      <motion.div
+        initial={{ scale: 0.9 }}
+        animate={{ scale: 1 }}
+        className="bg-white/5 p-10 rounded-2xl border border-white/10"
+      >
+        <p className="text-gray-400">Total Stripe Revenue</p>
+        <p className="text-5xl font-bold mt-4 text-green-400">
+          ₹{revenue.toLocaleString()}
         </p>
+      </motion.div>
 
-        {loading ? (
-          <p className="text-gray-500 mt-4">Loading...</p>
-        ) : (
-          <p className="text-4xl font-bold mt-4 text-green-400">
-            ₹{totalRevenue.toLocaleString()}
-          </p>
-        )}
-      </div>
     </main>
   );
 }
