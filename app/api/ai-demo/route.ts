@@ -1,44 +1,31 @@
-import { NextResponse } from "next/server";
 import OpenAI from "openai";
+import { NextResponse } from "next/server";
+
+export const dynamic = "force-dynamic";
 
 export async function POST(req: Request) {
+  if (!process.env.OPENAI_API_KEY) {
+    return NextResponse.json({ reply: "AI not configured." });
+  }
+
+  const openai = new OpenAI({
+    apiKey: process.env.OPENAI_API_KEY,
+  });
+
+  const { messages } = await req.json();
+
   try {
-    const { message } = await req.json();
-
-    if (!process.env.OPENAI_API_KEY) {
-      return NextResponse.json(
-        { error: "Missing OpenAI API key" },
-        { status: 500 }
-      );
-    }
-
-    const openai = new OpenAI({
-      apiKey: process.env.OPENAI_API_KEY,
-    });
-
-    const response = await openai.chat.completions.create({
+    const completion = await openai.chat.completions.create({
       model: "gpt-4o-mini",
-      messages: [
-        {
-          role: "system",
-          content:
-            "You are Resultify AI assistant helping businesses automate operations.",
-        },
-        {
-          role: "user",
-          content: message,
-        },
-      ],
+      messages,
     });
 
     return NextResponse.json({
-      reply: response.choices[0].message.content,
+      reply: completion.choices[0].message.content,
     });
   } catch (error: any) {
-    console.error("AI error:", error);
-    return NextResponse.json(
-      { error: error.message || "AI failed" },
-      { status: 500 }
-    );
+    return NextResponse.json({
+      reply: "AI temporarily unavailable.",
+    });
   }
 }
