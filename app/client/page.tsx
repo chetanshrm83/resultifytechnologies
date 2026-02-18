@@ -2,45 +2,76 @@
 
 import { useEffect, useState } from "react";
 import { supabase } from "@/lib/supabaseClient";
+
 export default function ClientDashboard() {
-  const [metrics, setMetrics] = useState<any>(null);
+  const [metrics, setMetrics] = useState<any>({
+    usage: 0,
+    conversations: 0,
+  });
+
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const fetchData = async () => {
+      try {
+        // Fetch AI usage count
+        const { data: usageData, error: usageError } = await supabase
+          .from("ai_usage")
+          .select("*");
 
-      const { data: usage } = await supabase
-        .from("ai_usage")
-        .select("tokens, cost");
+        if (usageError) {
+          console.error("Usage fetch error:", usageError);
+        }
 
-      const totalTokens = usage?.reduce((a, b) => a + b.tokens, 0) || 0;
-      const totalCost = usage?.reduce((a, b) => a + Number(b.cost), 0) || 0;
+        // Fetch conversations count
+        const { data: convoData, error: convoError } = await supabase
+          .from("conversations")
+          .select("*");
 
-      setMetrics({
-        tokens: totalTokens,
-        cost: totalCost,
-      });
+        if (convoError) {
+          console.error("Conversation fetch error:", convoError);
+        }
+
+        setMetrics({
+          usage: usageData?.length || 0,
+          conversations: convoData?.length || 0,
+        });
+
+      } catch (err) {
+        console.error("Dashboard fetch error:", err);
+      } finally {
+        setLoading(false);
+      }
     };
 
     fetchData();
   }, []);
 
-  if (!metrics) return <p>Loading...</p>;
-
   return (
-    <main className="p-10">
-      <h1 className="text-3xl font-bold mb-10">Dashboard</h1>
+    <main className="max-w-6xl mx-auto p-10 text-white">
+      <h1 className="text-3xl font-bold mb-8">
+        Client Dashboard
+      </h1>
 
-      <div className="grid md:grid-cols-2 gap-6">
-        <div className="bg-white/5 p-6 rounded-xl">
-          <h3>Total AI Tokens</h3>
-          <p className="text-3xl">{metrics.tokens}</p>
-        </div>
+      {loading ? (
+        <p className="text-gray-400">Loading metrics...</p>
+      ) : (
+        <div className="grid md:grid-cols-2 gap-6">
+          <div className="rounded-2xl p-6 bg-white/5 border border-white/10">
+            <p className="text-gray-400">AI Requests Used</p>
+            <p className="text-3xl font-bold mt-2">
+              {metrics.usage}
+            </p>
+          </div>
 
-        <div className="bg-white/5 p-6 rounded-xl">
-          <h3>Total AI Cost</h3>
-          <p className="text-3xl">₹{metrics.cost.toFixed(2)}</p>
+          <div className="rounded-2xl p-6 bg-white/5 border border-white/10">
+            <p className="text-gray-400">Total Conversations</p>
+            <p className="text-3xl font-bold mt-2">
+              {metrics.conversations}
+            </p>
+          </div>
         </div>
-      </div>
+      )}
     </main>
   );
 }
