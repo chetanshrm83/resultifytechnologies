@@ -1,20 +1,13 @@
-import OpenAI from "openai";
 import { NextResponse } from "next/server";
-
-const openai = new OpenAI({
-  apiKey: process.env.OPENAI_API_KEY,
-});
+import OpenAI from "openai";
 
 export async function POST(req: Request) {
   try {
     const { message } = await req.json();
 
-    if (!message) {
-      return NextResponse.json(
-        { error: "Message is required" },
-        { status: 400 }
-      );
-    }
+    const openai = new OpenAI({
+      apiKey: process.env.OPENAI_API_KEY!,
+    });
 
     const completion = await openai.chat.completions.create({
       model: "gpt-4o-mini",
@@ -22,24 +15,19 @@ export async function POST(req: Request) {
         {
           role: "system",
           content:
-            "You are Resultify AI. You help businesses automate marketing, sales, support, collections, analytics, and internal workflows using AI.",
+            "You are Resultify AI. Help businesses understand how AI automation can improve marketing, sales, support, and analytics.",
         },
-        {
-          role: "user",
-          content: message,
-        },
+        { role: "user", content: message },
       ],
-      temperature: 0.7,
     });
 
     return NextResponse.json({
       reply: completion.choices[0].message.content,
     });
   } catch (error: any) {
-    console.error("AI Demo Error:", error);
-
+    console.error(error);
     return NextResponse.json(
-      { error: error.message || "AI request failed" },
+      { error: "AI request failed" },
       { status: 500 }
     );
   }
