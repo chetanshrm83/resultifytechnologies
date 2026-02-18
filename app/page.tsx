@@ -1,8 +1,8 @@
 "use client";
 
 import Link from "next/link";
-import { motion } from "framer-motion";
-import { useState } from "react";
+import { motion, AnimatePresence } from "framer-motion";
+import { useState, useEffect } from "react";
 import {
   Megaphone,
   Headset,
@@ -15,11 +15,20 @@ import AIDemoPopup from "@/components/AIDemoPopup";
 
 export default function HomePage() {
   const [openChat, setOpenChat] = useState(false);
+  const [openFAQ, setOpenFAQ] = useState<number | null>(null);
+  const [testimonialIndex, setTestimonialIndex] = useState(0);
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setTestimonialIndex((prev) => (prev + 1) % 3);
+    }, 4000);
+    return () => clearInterval(interval);
+  }, []);
 
   return (
     <main className="relative px-6 py-16 max-w-7xl mx-auto text-white">
 
-      {/* HERO */}
+      {/* ================= HERO ================= */}
       <section className="text-center mb-28">
         <motion.img
           src="/logo.png"
@@ -51,7 +60,7 @@ export default function HomePage() {
           </Link>
 
           <Link
-            href="/client/billing"
+            href="/pricing"
             className="px-6 py-3 rounded-xl border border-white/20 hover:bg-white/10 transition"
           >
             View Pricing
@@ -59,7 +68,7 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* AI AGENTS SECTION */}
+      {/* ================= AI AGENTS ================= */}
       <section className="mb-32">
         <h2 className="text-3xl md:text-5xl font-bold text-center mb-6">
           Deploy AI Agents Across Your Business
@@ -75,40 +84,40 @@ export default function HomePage() {
             {
               icon: Megaphone,
               title: "Marketing & Sales",
-              desc: "Qualify leads, answer queries, and convert conversations 24/7.",
+              desc: "Qualify leads and convert conversations 24/7.",
             },
             {
               icon: Headset,
               title: "Customer Experience",
-              desc: "Deliver instant AI-powered support on WhatsApp & web chat.",
+              desc: "AI-powered support on WhatsApp & web chat.",
             },
             {
               icon: CreditCard,
               title: "Collections",
-              desc: "Automate reminders, renewals, and payment follow-ups.",
+              desc: "Automated reminders and renewals.",
             },
             {
               icon: Bot,
               title: "Agent Assist",
-              desc: "Provide real-time AI suggestions and summaries for teams.",
+              desc: "Real-time AI suggestions for teams.",
             },
             {
               icon: BarChart3,
               title: "Analytics",
-              desc: "Track revenue impact, performance, and AI efficiency.",
+              desc: "Track revenue impact and AI efficiency.",
             },
             {
               icon: Building2,
               title: "Internal Help Desk",
-              desc: "Answer employee queries and SOPs instantly.",
+              desc: "Instant employee query resolution.",
             },
           ].map((item, i) => (
             <motion.div
               key={item.title}
               initial={{ opacity: 0, y: 20 }}
-              whileHover={{ scale: 1.05 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: i * 0.1 }}
+              whileHover={{ scale: 1.05 }}
               className="group relative rounded-2xl p-8 border border-white/10 bg-white/5 hover:border-blue-400 transition-all"
             >
               <item.icon className="w-8 h-8 text-blue-400 mb-4" />
@@ -124,7 +133,108 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* CTA */}
+      {/* ================= PRICING PREVIEW ================= */}
+      <section className="mb-32 text-center">
+        <h2 className="text-3xl md:text-5xl font-bold mb-16">
+          Simple Transparent Pricing
+        </h2>
+
+        <div className="grid md:grid-cols-3 gap-8">
+          {[
+            { name: "Starter", price: "₹2,999 / month" },
+            { name: "Growth", price: "₹9,999 / month" },
+            { name: "Enterprise", price: "Custom" },
+          ].map((plan, i) => (
+            <motion.div
+              key={plan.name}
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ delay: i * 0.2 }}
+              className="p-8 border border-white/10 rounded-2xl bg-white/5 hover:border-blue-400 transition"
+            >
+              <h3 className="text-xl font-semibold mb-4">{plan.name}</h3>
+              <p className="text-3xl font-bold mb-6">{plan.price}</p>
+
+              <Link
+                href="/pricing"
+                className="block bg-blue-500 text-black py-2 rounded-lg"
+              >
+                View Plan
+              </Link>
+            </motion.div>
+          ))}
+        </div>
+      </section>
+
+      {/* ================= TESTIMONIALS ================= */}
+      <section className="mb-32 text-center">
+        <h2 className="text-3xl md:text-5xl font-bold mb-16">
+          What Businesses Say
+        </h2>
+
+        <motion.div
+          key={testimonialIndex}
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          className="max-w-2xl mx-auto text-gray-300 text-lg"
+        >
+          {[
+            "Resultify automated 70% of our support instantly.",
+            "Our WhatsApp sales doubled in 2 months.",
+            "The best AI automation platform we’ve used."
+          ][testimonialIndex]}
+        </motion.div>
+      </section>
+
+      {/* ================= FAQ ================= */}
+      <section className="mb-32 max-w-4xl mx-auto">
+        <h2 className="text-3xl md:text-5xl font-bold text-center mb-12">
+          Frequently Asked Questions
+        </h2>
+
+        {[
+          {
+            q: "How does Resultify AI work?",
+            a: "We deploy AI agents across marketing, sales, support and analytics."
+          },
+          {
+            q: "Is WhatsApp supported?",
+            a: "Yes. WhatsApp integration is fully supported."
+          },
+          {
+            q: "Is billing automated?",
+            a: "Stripe handles subscriptions and usage billing."
+          }
+        ].map((faq, i) => (
+          <div
+            key={i}
+            className="border border-white/10 rounded-xl bg-white/5 mb-4"
+          >
+            <button
+              onClick={() => setOpenFAQ(openFAQ === i ? null : i)}
+              className="w-full p-6 text-left flex justify-between font-semibold"
+            >
+              {faq.q}
+              <span>{openFAQ === i ? "−" : "+"}</span>
+            </button>
+
+            <AnimatePresence>
+              {openFAQ === i && (
+                <motion.div
+                  initial={{ height: 0, opacity: 0 }}
+                  animate={{ height: "auto", opacity: 1 }}
+                  exit={{ height: 0, opacity: 0 }}
+                  className="px-6 pb-6 text-gray-400"
+                >
+                  {faq.a}
+                </motion.div>
+              )}
+            </AnimatePresence>
+          </div>
+        ))}
+      </section>
+
+      {/* ================= FINAL CTA ================= */}
       <section className="text-center py-20 bg-gradient-to-r from-blue-500/10 to-purple-500/10 rounded-3xl border border-white/10">
         <h2 className="text-3xl md:text-4xl font-bold mb-6">
           Ready to Scale With AI?
@@ -142,17 +252,16 @@ export default function HomePage() {
         </button>
       </section>
 
-      {/* AI Popup */}
       {openChat && <AIDemoPopup onClose={() => setOpenChat(false)} />}
 
-      {/* WhatsApp Floating Button */}
+      {/* WhatsApp Button */}
       <a
         href="https://wa.me/919717188869"
         target="_blank"
         rel="noopener noreferrer"
         className="fixed bottom-6 right-6 bg-green-500 w-14 h-14 rounded-full flex items-center justify-center shadow-lg hover:scale-110 transition"
       >
-        <span className="text-white text-xl">💬</span>
+        💬
       </a>
 
     </main>
