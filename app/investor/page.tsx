@@ -2,7 +2,6 @@
 
 import { useEffect, useState } from "react";
 import { supabase } from "@/lib/supabaseClient";
-
 export default function InvestorPage() {
   const [revenue, setRevenue] = useState(0);
 
