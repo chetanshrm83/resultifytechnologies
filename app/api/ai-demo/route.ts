@@ -22,7 +22,7 @@ export async function POST(req: Request) {
         {
           role: "system",
           content:
-            "You are Resultify AI, a business automation assistant helping companies automate marketing, sales, support, collections, and analytics.",
+            "You are Resultify AI. You help businesses automate marketing, sales, support, collections, analytics, and internal workflows using AI.",
         },
         {
           role: "user",
@@ -35,7 +35,6 @@ export async function POST(req: Request) {
     return NextResponse.json({
       reply: completion.choices[0].message.content,
     });
-
   } catch (error: any) {
     console.error("AI Demo Error:", error);
 
