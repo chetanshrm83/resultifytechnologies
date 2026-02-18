@@ -1,6 +1,11 @@
 import { createClient } from "@supabase/supabase-js";
 
-export const supabase = createClient(
-  process.env.NEXT_PUBLIC_SUPABASE_URL || "https://placeholder.supabase.co",
-  process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || "placeholder-key"
-);
+const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL!;
+const supabaseAnonKey =
+  process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_DEFAULT_KEY!;
+
+if (!supabaseUrl || !supabaseAnonKey) {
+  throw new Error("Missing Supabase environment variables");
+}
+
+export const supabase = createClient(supabaseUrl, supabaseAnonKey);
