@@ -28,49 +28,72 @@ export default function HomePage() {
   return (
     <main className="relative px-6 py-20 max-w-7xl mx-auto text-white">
 
-      {/* HERO */}
-      <section className="text-center mb-28 relative">
+{/* HERO */}
+<section className="mb-28 relative">
 
-        <div className="absolute inset-0 -z-10 bg-gradient-to-r from-blue-500/10 via-purple-500/10 to-pink-500/10 blur-3xl animate-pulse" />
+  {/* Animated Glow Background */}
+  <div className="absolute inset-0 -z-10 bg-gradient-to-r from-blue-500/10 via-purple-500/10 to-pink-500/10 blur-3xl animate-pulse" />
 
-        <motion.h1
-          initial={{ opacity: 0, y: 30 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6 }}
-          className="text-4xl md:text-6xl font-bold mb-6"
+  <div className="grid md:grid-cols-2 gap-12 items-center">
+
+    {/* LEFT CONTENT */}
+    <div className="text-left">
+
+      <motion.h1
+        initial={{ opacity: 0, y: 30 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.6 }}
+        className="text-4xl md:text-6xl font-bold mb-6 leading-tight"
+      >
+        AI that builds, scales, and delivers.
+      </motion.h1>
+
+      <motion.p
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ delay: 0.2 }}
+        className="text-lg text-gray-400 mb-8 max-w-xl"
+      >
+        Your partner in growth transforming complexity into streamlined success.
+      </motion.p>
+
+      <div className="flex gap-4">
+        <Link
+          href="/client"
+          className="px-6 py-3 rounded-xl bg-blue-500 text-black font-semibold hover:bg-blue-400 transition"
         >
-          AI Automation for Modern Businesses
-        </motion.h1>
+          Start Free Trial
+        </Link>
 
-        <p className="text-lg text-gray-400 max-w-3xl mx-auto mb-8">
-          Resultify automates marketing, sales, support, collections and analytics using AI.
-        </p>
+        <Link
+          href="/pricing"
+          className="px-6 py-3 rounded-xl border border-white/20 hover:bg-white/10 transition"
+        >
+          View Pricing
+        </Link>
+      </div>
+    </div>
 
-        {/* HERO IMAGE */}
-        <motion.img
-          src="/hero.png"
-          alt="AI Automation"
-          className="mx-auto mb-10 max-w-4xl rounded-2xl shadow-2xl border border-white/10"
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-        />
+    {/* RIGHT IMAGE */}
+    <motion.div
+      initial={{ opacity: 0, scale: 0.9 }}
+      animate={{ opacity: 1, scale: 1 }}
+      transition={{ duration: 0.6 }}
+      className="flex justify-center md:justify-end"
+    >
+      <img
+        src="/hero.png"
+        alt="AI Automation"
+        className="w-80 md:w-96 rounded-2xl shadow-2xl hover:shadow-blue-500/40 transition-all duration-500"
+        style={{
+          transform: "perspective(1000px) rotateY(-6deg)",
+        }}
+      />
+    </motion.div>
 
-        <div className="flex justify-center gap-4">
-          <Link
-            href="/client"
-            className="px-6 py-3 rounded-xl bg-blue-500 text-black font-semibold hover:bg-blue-400 transition"
-          >
-            Start Free Trial
-          </Link>
+  </div>
+</section>
 
-          <Link
-            href="/pricing"
-            className="px-6 py-3 rounded-xl border border-white/20 hover:bg-white/10 transition"
-          >
-            View Pricing
-          </Link>
-        </div>
-      </section>
 
       {/* AI AGENTS */}
       <section className="mb-32">
