@@ -94,7 +94,6 @@ export default function HomePage() {
   </div>
 </section>
 
-
       {/* AI AGENTS */}
       <section className="mb-32">
         <h2 className="text-3xl md:text-5xl font-bold text-center mb-6">
