@@ -19,3 +19,7 @@ body {
   background: #2563eb;
   border-radius: 10px;
 }
+html {
+  scroll-behavior: smooth;
+}
+
