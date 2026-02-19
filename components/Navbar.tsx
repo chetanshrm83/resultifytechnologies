@@ -1,44 +1,66 @@
 "use client";
 
 import Link from "next/link";
+import { useEffect, useState } from "react";
+import { motion } from "framer-motion";
 
 export default function Navbar() {
-  return (
-    <header className="w-full border-b border-white/10 bg-black sticky top-0 z-50">
-      <div className="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
+  const [scrolled, setScrolled] = useState(false);
 
-        {/* LOGO */}
+  useEffect(() => {
+    const handleScroll = () => {
+      setScrolled(window.scrollY > 10);
+    };
+
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
+
+  return (
+    <motion.header
+      initial={{ y: -60 }}
+      animate={{ y: 0 }}
+      transition={{ duration: 0.4 }}
+      className={`fixed top-0 left-0 w-full z-50 transition-all duration-300 ${
+        scrolled
+          ? "bg-black/80 backdrop-blur-xl border-b border-white/10"
+          : "bg-transparent"
+      }`}
+    >
+      <div className="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
+
+        {/* Logo */}
         <Link href="/" className="flex items-center gap-2">
           <img src="/logo.png" alt="Resultify" className="w-8 h-8" />
-          <span className="font-semibold text-lg">
+          <span className="font-semibold tracking-wide">
             Resultify
           </span>
         </Link>
 
-        {/* NAV LINKS */}
-        <nav className="hidden md:flex gap-8 text-gray-300">
-          <Link href="/pricing" className="hover:text-white">
+        {/* Nav Links */}
+        <nav className="hidden md:flex gap-8 text-sm text-gray-300">
+          <a href="#agents" className="hover:text-white transition">
+            AI Agents
+          </a>
+          <a href="#pricing" className="hover:text-white transition">
             Pricing
-          </Link>
-          <Link href="/faq" className="hover:text-white">
+          </a>
+          <a href="#faq" className="hover:text-white transition">
             FAQ
-          </Link>
-          <Link href="/about" className="hover:text-white">
-            About
-          </Link>
-          <Link href="/contact" className="hover:text-white">
-            Contact
+          </a>
+          <Link href="/client" className="hover:text-white transition">
+            Dashboard
           </Link>
         </nav>
 
+        {/* CTA */}
         <Link
           href="/client"
-          className="px-4 py-2 bg-blue-500 text-black rounded-lg font-semibold hover:bg-blue-400 transition"
+          className="hidden md:block px-5 py-2 rounded-lg bg-blue-600 hover:bg-blue-500 transition"
         >
-          Start Free
+          Start Free Trial
         </Link>
-
       </div>
-    </header>
+    </motion.header>
   );
 }
