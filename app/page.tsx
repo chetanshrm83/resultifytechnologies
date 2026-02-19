@@ -105,6 +105,43 @@ export default function HomePage() {
           ))}
         </div>
       </section>
+{/* ================= TESTIMONIALS ================= */}
+<section className="mb-32 text-center">
+  <h2 className="text-3xl md:text-5xl font-bold mb-12">
+    Trusted by Modern Businesses
+  </h2>
+
+  <div className="relative max-w-3xl mx-auto overflow-hidden">
+    <motion.div
+      key={testimonialIndex}
+      initial={{ opacity: 0, x: 50 }}
+      animate={{ opacity: 1, x: 0 }}
+      exit={{ opacity: 0, x: -50 }}
+      transition={{ duration: 0.5 }}
+      className="bg-white/5 border border-white/10 rounded-2xl p-10"
+    >
+      <p className="text-gray-300 text-lg mb-6">
+        {
+          [
+            "Resultify automated 70% of our support instantly and reduced operational cost by 35%.",
+            "Our WhatsApp conversions doubled within 2 months after deploying AI agents.",
+            "Investor reporting and revenue tracking became effortless with Resultify.",
+          ][testimonialIndex]
+        }
+      </p>
+
+      <div className="text-blue-400 font-semibold">
+        {
+          [
+            "Rahul Mehta – SaaS Founder",
+            "Anjali Sharma – E-commerce CEO",
+            "David Collins – Venture Partner",
+          ][testimonialIndex]
+        }
+      </div>
+    </motion.div>
+  </div>
+</section>
 
       {/* FAQ */}
       <section className="mb-32 max-w-4xl mx-auto">
