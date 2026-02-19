@@ -33,14 +33,6 @@ export default function HomePage() {
 
         <div className="absolute inset-0 -z-10 bg-gradient-to-r from-blue-500/10 via-purple-500/10 to-pink-500/10 blur-3xl animate-pulse" />
 
-        <motion.img
-          src="/logo.png"
-          alt="Resultify Logo"
-          className="mx-auto mb-6 w-20"
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-        />
-
         <motion.h1
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
@@ -53,6 +45,15 @@ export default function HomePage() {
         <p className="text-lg text-gray-400 max-w-3xl mx-auto mb-8">
           Resultify automates marketing, sales, support, collections and analytics using AI.
         </p>
+
+        {/* HERO IMAGE */}
+        <motion.img
+          src="/hero.png"
+          alt="AI Automation"
+          className="mx-auto mb-10 max-w-4xl rounded-2xl shadow-2xl border border-white/10"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+        />
 
         <div className="flex justify-center gap-4">
           <Link
@@ -72,7 +73,7 @@ export default function HomePage() {
       </section>
 
       {/* AI AGENTS */}
-      <section id="agents" className="mb-32">
+      <section className="mb-32">
         <h2 className="text-3xl md:text-5xl font-bold text-center mb-6">
           Deploy AI Agents Across Your Business
         </h2>
@@ -105,56 +106,31 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* PRICING */}
-      <section id="pricing" className="mb-32 text-center">
-        <h2 className="text-3xl md:text-5xl font-bold mb-12">
-          Simple Transparent Pricing
+      {/* FAQ */}
+      <section className="mb-32 max-w-4xl mx-auto">
+        <h2 className="text-3xl md:text-5xl font-bold text-center mb-12">
+          Frequently Asked Questions
         </h2>
 
-        <div className="flex justify-center mb-12 gap-6">
-          <button onClick={() => setYearly(false)} className={!yearly ? "font-bold" : "text-gray-400"}>
-            Monthly
-          </button>
-          <button onClick={() => setYearly(true)} className={yearly ? "font-bold" : "text-gray-400"}>
-            Yearly (Save 20%)
-          </button>
-        </div>
-
-        <div className="grid md:grid-cols-3 gap-8">
-          {[
-            { name: "Starter", price: yearly ? "₹28,800 / year" : "₹2,999 / month" },
-            { name: "Growth", price: yearly ? "₹95,000 / year" : "₹9,999 / month" },
-            { name: "Enterprise", price: "Custom" },
-          ].map((plan) => (
-            <div key={plan.name} className="p-8 border border-white/10 rounded-2xl bg-white/5">
-              <h3 className="text-xl font-semibold mb-4">{plan.name}</h3>
-              <p className="text-3xl font-bold mb-6">{plan.price}</p>
-              <Link href="/pricing" className="block bg-blue-500 text-black py-2 rounded-lg">
-                View Plan
-              </Link>
-            </div>
-          ))}
-        </div>
-      </section>
-
-      {/* TESTIMONIAL */}
-      <section className="mb-32 text-center">
-        <h2 className="text-3xl md:text-5xl font-bold mb-12">
-          What Businesses Say
-        </h2>
-
-        <motion.div
-          key={testimonialIndex}
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          className="max-w-2xl mx-auto text-gray-300 text-lg"
-        >
-          {[
-            "Resultify automated 70% of our support instantly.",
-            "Our WhatsApp sales doubled in 2 months.",
-            "Best AI automation platform."
-          ][testimonialIndex]}
-        </motion.div>
+        {[
+          {
+            q: "How does Resultify AI work?",
+            a: "We deploy AI agents across marketing, sales, support and analytics."
+          },
+          {
+            q: "Is WhatsApp supported?",
+            a: "Yes. WhatsApp integration is fully supported."
+          },
+          {
+            q: "Is billing automated?",
+            a: "Stripe handles subscriptions and usage billing."
+          }
+        ].map((faq, i) => (
+          <div key={i} className="border border-white/10 rounded-xl bg-white/5 mb-4 p-6">
+            <h3 className="font-semibold mb-2">{faq.q}</h3>
+            <p className="text-gray-400">{faq.a}</p>
+          </div>
+        ))}
       </section>
 
       {/* CTA */}
