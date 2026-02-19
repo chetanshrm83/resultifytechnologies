@@ -5,50 +5,62 @@ import { useState } from "react";
 export default function AIDemoPopup({ onClose }: { onClose: () => void }) {
   const [message, setMessage] = useState("");
   const [response, setResponse] = useState("");
+  const [loading, setLoading] = useState(false);
 
   const sendMessage = async () => {
     if (!message) return;
+    setLoading(true);
 
-    const res = await fetch("/api/ai-demo", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ message }),
-    });
+    try {
+      const res = await fetch("/api/ai-demo", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ message }),
+      });
 
-    const data = await res.json();
-    setResponse(data.reply || "No response");
+      const data = await res.json();
+      setResponse(data.reply);
+    } catch {
+      setResponse("AI temporarily unavailable.");
+    }
+
+    setLoading(false);
   };
 
   return (
-    <div className="fixed bottom-24 right-6 w-80 bg-slate-900 border border-white/10 rounded-2xl shadow-2xl p-6">
-      <div className="flex justify-between mb-4">
-        <h4 className="font-semibold">Resultify AI</h4>
-        <button onClick={onClose}>✕</button>
+    <div className="fixed inset-0 bg-black/80 flex items-center justify-center z-50 p-6">
+      <div className="bg-[#111] p-6 rounded-2xl w-full max-w-md border border-white/10">
+
+        <h2 className="text-xl font-bold mb-4">AI Demo</h2>
+
+        <textarea
+          className="w-full p-3 rounded-lg bg-black border border-white/10 mb-4"
+          placeholder="Ask something..."
+          value={message}
+          onChange={(e) => setMessage(e.target.value)}
+        />
+
+        <button
+          onClick={sendMessage}
+          disabled={loading}
+          className="w-full bg-blue-500 py-2 rounded-lg text-black font-semibold mb-4"
+        >
+          {loading ? "Thinking..." : "Send"}
+        </button>
+
+        {response && (
+          <div className="text-gray-300 text-sm mb-4">
+            {response}
+          </div>
+        )}
+
+        <button
+          onClick={onClose}
+          className="text-gray-400 text-sm hover:text-white"
+        >
+          Close
+        </button>
       </div>
-
-      <div className="text-sm text-gray-400 mb-3">
-        👋 Ask me how AI can grow your business.
-      </div>
-
-      {response && (
-        <div className="bg-black/40 p-3 rounded mb-3 text-sm">
-          {response}
-        </div>
-      )}
-
-      <input
-        value={message}
-        onChange={(e) => setMessage(e.target.value)}
-        placeholder="Type a message..."
-        className="w-full px-3 py-2 bg-black/40 rounded-lg border border-white/10 text-sm mb-3"
-      />
-
-      <button
-        onClick={sendMessage}
-        className="w-full bg-blue-500 py-2 rounded-lg text-black font-semibold hover:bg-blue-400"
-      >
-        Send
-      </button>
     </div>
   );
 }
