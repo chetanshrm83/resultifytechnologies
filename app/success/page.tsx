@@ -1,18 +1,16 @@
-import Link from "next/link";
+"use client";
+
+export const dynamic = "force-dynamic";
+
+import React from "react";
 
 export default function SuccessPage() {
   return (
-    <div className="text-center py-20">
-      <h1 className="text-4xl font-bold text-green-400 mb-4">
-        Payment Successful
-      </h1>
+    <main className="max-w-4xl mx-auto p-10 text-white">
+      <h1 className="text-3xl font-bold mb-8">Payment Successful</h1>
 
-      <Link
-        href="/client"
-        className="px-6 py-3 border border-white/20 rounded-xl"
-      >
-        Go to Dashboard
-      </Link>
-    </div>
+      {/* KEEP YOUR EXISTING CONTENT BELOW */}
+
+    </main>
   );
 }
