@@ -1,14 +1,19 @@
 "use client";
 
-import RevenueChart from "@/components/RevenueChart";
+export const dynamic = "force-dynamic";
+
+import React from "react";
 
 export default function AdminPage() {
   return (
-    <main className="max-w-6xl mx-auto p-8 text-white">
-      <h1 className="text-3xl font-bold mb-10">
-        Admin Dashboard
-      </h1>
+    <main className="max-w-6xl mx-auto p-10 text-white">
+      <h1 className="text-3xl font-bold mb-8">Admin Dashboard</h1>
 
+      {/* KEEP YOUR EXISTING CONTENT BELOW */}
+      
+    </main>
+  );
+}
       {/* KPI Cards */}
       <div className="grid md:grid-cols-3 gap-6 mb-12">
         {[
