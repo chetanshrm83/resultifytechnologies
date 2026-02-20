@@ -1,13 +1,21 @@
 "use client";
 
+export const dynamic = "force-dynamic";
+
+import React from "react";
+
 export default function ContactPage() {
   return (
-    <main className="max-w-3xl mx-auto px-6 py-20">
-      <h1 className="text-3xl font-semibold mb-6">
-        Contact Sales
-      </h1>
+    <main className="max-w-4xl mx-auto p-10 text-white">
+      <h1 className="text-3xl font-bold mb-8">Contact Us</h1>
 
-      <p className="text-gray-400 mb-10">
+      {/* KEEP YOUR EXISTING CONTENT BELOW */}
+
+    </main>
+  );
+}
+
+     <p className="text-gray-400 mb-10">
         Want a custom plan, white-label access, or enterprise support?
         Talk to our team.
       </p>
