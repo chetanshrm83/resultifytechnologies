@@ -1,8 +1,18 @@
 "use client";
 
-import { useEffect, useState } from "react";
+export const dynamic = "force-dynamic";
+import React from "react";
 import { supabase } from "@/lib/supabaseClient";
+export default function ClientPage() {
+  return (
+    <main className="max-w-6xl mx-auto p-10 text-white">
+      <h1 className="text-3xl font-bold mb-8">Client Dashboard</h1>
 
+      {/* KEEP YOUR EXISTING CONTENT BELOW */}
+
+    </main>
+  );
+}
 export default function ClientDashboard() {
   const [metrics, setMetrics] = useState<any>({
     usage: 0,
