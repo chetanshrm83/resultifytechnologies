@@ -4,10 +4,10 @@ export const dynamic = "force-dynamic";
 
 import React from "react";
 
-export default function SupportPage() {
+export default function UsagePage() {
   return (
     <main className="max-w-6xl mx-auto p-10 text-white">
-      <h1 className="text-3xl font-bold mb-8">Support Center</h1>
+      <h1 className="text-3xl font-bold mb-8">Usage & Analytics</h1>
 
       {/* KEEP YOUR EXISTING CONTENT BELOW */}
 
