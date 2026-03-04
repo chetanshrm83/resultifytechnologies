@@ -6,20 +6,8 @@ import React from "react";
 
 export default function BillingPage() {
   return (
-    <main className="max-w-4xl mx-auto p-10 text-white">
-      <h1 className="text-3xl font-bold mb-8">Billing & Plans</h1>
-
-      {/* KEEP YOUR EXISTING CONTENT BELOW */}
-
-    </main>
-  );
-}
-export default function BillingPage() {
-  return (
-    <main className="max-w-5xl mx-auto p-10">
-      <h1 className="text-3xl font-bold mb-10">
-        Billing & Plans
-      </h1>
+    <main className="max-w-5xl mx-auto p-10 text-white">
+      <h1 className="text-3xl font-bold mb-10">Billing & Plans</h1>
 
       <div className="grid md:grid-cols-3 gap-6">
         {[

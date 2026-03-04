@@ -12,6 +12,11 @@ export default function AuthGuard({
   const router = useRouter();
 
   useEffect(() => {
+    if (!supabase) {
+      router.replace("/");
+      return;
+    }
+
     supabase.auth.getSession().then(({ data }) => {
       if (!data.session) router.replace("/");
     });
