@@ -3,18 +3,13 @@
 export const dynamic = "force-dynamic";
 
 import React from "react";
+import RevenueChart from "@/components/RevenueChart";
 
 export default function AdminPage() {
   return (
     <main className="max-w-6xl mx-auto p-10 text-white">
       <h1 className="text-3xl font-bold mb-8">Admin Dashboard</h1>
 
-      {/* KEEP YOUR EXISTING CONTENT BELOW */}
-      
-    </main>
-  );
-}
-      {/* KPI Cards */}
       <div className="grid md:grid-cols-3 gap-6 mb-12">
         {[
           { label: "Total Clients", value: "42" },
@@ -31,11 +26,8 @@ export default function AdminPage() {
         ))}
       </div>
 
-      {/* Revenue Chart */}
       <div className="rounded-2xl p-6 bg-white/5 border border-white/10">
-        <h2 className="text-xl font-semibold mb-6">
-          Revenue Overview
-        </h2>
+        <h2 className="text-xl font-semibold mb-6">Revenue Overview</h2>
         <RevenueChart />
       </div>
     </main>

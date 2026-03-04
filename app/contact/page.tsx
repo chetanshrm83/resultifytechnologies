@@ -9,15 +9,9 @@ export default function ContactPage() {
     <main className="max-w-4xl mx-auto p-10 text-white">
       <h1 className="text-3xl font-bold mb-8">Contact Us</h1>
 
-      {/* KEEP YOUR EXISTING CONTENT BELOW */}
-
-    </main>
-  );
-}
-
-     <p className="text-gray-400 mb-10">
-        Want a custom plan, white-label access, or enterprise support?
-        Talk to our team.
+      <p className="text-gray-400 mb-10">
+        Want a custom plan, white-label access, or enterprise support? Talk to
+        our team.
       </p>
 
       <div className="space-y-4">

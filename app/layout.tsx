@@ -18,7 +18,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body className="bg-[#020617] text-white min-h-screen">
+      <body id="top" className="bg-[#020617] text-white min-h-screen">
 
         {/* GLOBAL NAVBAR */}
         <header className="border-b border-white/10 bg-black/40 backdrop-blur-md">
@@ -74,9 +74,9 @@ export default function RootLayout({
         <li><Link href="/help-center">Help Center</Link></li>
         <li><Link href="/contact">Contact</Link></li>
         <li>
-          <button className="text-left" onClick={() => window.scrollTo(0, 0)}>
+          <Link href="#top" className="text-left">
             Live Chat
-          </button>
+          </Link>
         </li>
         <li><Link href="/faq">FAQ</Link></li>
       </ul>
